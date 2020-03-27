@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_plus.*
 
 class PlusActivity : AppCompatActivity() {
@@ -17,8 +16,11 @@ class PlusActivity : AppCompatActivity() {
             Menu("밥", "1000"),
             Menu("국", "2000")
         )
-        
-        val mAdapter = MenuAdapter(this, menu_List)
+        val mAdapter = MenuAdapter(this, menu_List, { menu ->
+            Toast.makeText(this,"Menu ${menu.name}, Price ${menu.price}", Toast.LENGTH_SHORT).show()
+        }, { menu->
+            Toast.makeText(this, "Delete ${menu.name}",Toast.LENGTH_SHORT).show()
+        })
         mRecyclerView.adapter = mAdapter
 
         val lm = LinearLayoutManager(this)
