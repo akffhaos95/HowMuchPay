@@ -4,12 +4,72 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PlusActivity">
+    tools:context=".PlusActivity"
+    android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:weightSum="10">
+        <TextView
+            android:text="인원 :"
+            android:textSize="80px"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+        <EditText
+            android:id="@+id/txt_member"
+            android:textSize="80px"
+            android:hint="0"
+            android:layout_weight="3"
+            android:inputType="number"
+            android:layout_width="100px"
+            android:digits="0123456789"
+            android:singleLine="true"
+            android:imeOptions="actionNext"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:weightSum="10">
+        <TextView
+            android:text="금액 :"
+            android:textSize="80px"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"/>
+        <EditText
+            android:id="@+id/txt_money"
+            android:textSize="80px"
+            android:hint="0"
+            android:layout_weight="3"
+            android:inputType="number"
+            android:layout_width="100px"
+            android:digits="0123456789"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
     <Button
-        android:id="@+id/btn_member"
-        android:text="카카오톡"
-        android:layout_width="wrap_content"
+        android:id="@+id/btn_result"
+        android:textSize="80px"
+        android:text="계산"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
+    <TextView
+        android:id="@+id/txt_result"
+        android:textSize="80px"
+        android:hint="결과"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/btn_menu_plus"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/mRecyclerView"
+        android:layout_margin="8dp"/>
 </LinearLayout>
