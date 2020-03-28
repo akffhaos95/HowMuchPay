@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    android:layout_margin="10dp">
+    android:layout_marginTop="15dp">
     <TextView
         android:text="메뉴 정보를 입력하세요"
         android:textSize="30dp"

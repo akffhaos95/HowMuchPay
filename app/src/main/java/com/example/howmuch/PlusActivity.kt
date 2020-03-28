@@ -13,32 +13,28 @@ import java.lang.Exception
 
 class PlusActivity : AppCompatActivity() {
     private var menuDB : Db_menu? = null
-    private var menu_List = arrayListOf<Menu>()
+    private var menu_List = listOf<Db_menu_Entity>()
     lateinit var mAdapter : MenuAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_plus)
-        Log.d("error","Error - 1")
         //Room DB(db_menu)
         menuDB = Db_menu.getInstance(this)
-        Log.d("error","Error - 1.5")
-        mAdapter = MenuAdapter(this, menu_List, { menu ->
+        mAdapter = MenuAdapter(this,  menu_List, { menu ->
             Toast.makeText(this,"Menu ${menu.name}, Price ${menu.price}", Toast.LENGTH_SHORT).show()
         }, { menu->
             Toast.makeText(this, "Delete ${menu.name}",Toast.LENGTH_SHORT).show()
         })
         val r = Runnable {
             try {
-                Log.d("error","Error - 2")
-                menu_List = menuDB?.menu_Dao()?.getAll()!!
+                Log.d("debug","1")
+                menu_List = menuDB?.menu_Dao()?.getNP()!!
                 MenuAdapter(this, menu_List, { menu ->
                     Toast.makeText(this,"Menu ${menu.name}, Price ${menu.price}", Toast.LENGTH_SHORT).show()
                 }, { menu->
                     Toast.makeText(this, "Delete ${menu.name}",Toast.LENGTH_SHORT).show()
                 })
-
-                Log.d("error","Error - 3")
                 mAdapter.notifyDataSetChanged()
                 mRecyclerView.adapter = mAdapter
                 mRecyclerView.layoutManager = LinearLayoutManager(this)
@@ -47,12 +43,8 @@ class PlusActivity : AppCompatActivity() {
                 Log.d("error","Error - ${e}")
             }
         }
-        Log.d("error","Error - 4")
         val thread = Thread(r)
         thread.start()
-
-        Log.d("error","Error - 5")
-
         //Result Button
         btn_result.setOnClickListener {
             var member = txt_member.text.toString()
@@ -72,10 +64,13 @@ class PlusActivity : AppCompatActivity() {
             val dialogName = dialogView.findViewById<EditText>(R.id.txt_plus_menu_name)
             val dialogPrice = dialogView.findViewById<EditText>(R.id.txt_plus_menu_price)
             val addRunnable = Runnable {
-                val newMenu = db_menu_Entity()
+                val newMenu = Db_menu_Entity()
+                newMenu.id = 1
                 newMenu.name = dialogName.text.toString()
                 newMenu.price = dialogPrice.text.toString()
                 menuDB?.menu_Dao()?.insert(newMenu)
+                Log.d("debug",newMenu.name)
+                Log.d("debug",newMenu.price)
             }
             builder.setView(dialogView).setPositiveButton("저장") { dialogInterface: DialogInterface, i: Int ->
                 val addThread = Thread(addRunnable)
@@ -87,7 +82,7 @@ class PlusActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        Db_menu.Companion.destroyInstance()
+        Db_menu.destroyInstance()
         menuDB = null
         super.onDestroy()
     }

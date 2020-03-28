@@ -10,7 +10,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //test
+
         btn_plus.setOnClickListener {
             val plusIntent = Intent(this, PlusActivity::class.java)
             startActivity(plusIntent)
