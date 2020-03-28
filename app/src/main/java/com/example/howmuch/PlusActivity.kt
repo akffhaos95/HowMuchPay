@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.activity_plus.*
 import java.lang.Exception
 
 class PlusActivity : AppCompatActivity() {
-    private var menuDB : db_menu? = null
+    private var menuDB : Db_menu? = null
     private var menu_List = arrayListOf<Menu>()
     lateinit var mAdapter : MenuAdapter
 
@@ -21,7 +21,8 @@ class PlusActivity : AppCompatActivity() {
         setContentView(R.layout.activity_plus)
         Log.d("error","Error - 1")
         //Room DB(db_menu)
-        menuDB = db_menu.getInstance(this)
+        menuDB = Db_menu.getInstance(this)
+        Log.d("error","Error - 1.5")
         mAdapter = MenuAdapter(this, menu_List, { menu ->
             Toast.makeText(this,"Menu ${menu.name}, Price ${menu.price}", Toast.LENGTH_SHORT).show()
         }, { menu->
@@ -29,9 +30,8 @@ class PlusActivity : AppCompatActivity() {
         })
         val r = Runnable {
             try {
-
                 Log.d("error","Error - 2")
-                menu_List = menuDB?.menu_Dao()?.getAll()!! as ArrayList<Menu>
+                menu_List = menuDB?.menu_Dao()?.getAll()!!
                 MenuAdapter(this, menu_List, { menu ->
                     Toast.makeText(this,"Menu ${menu.name}, Price ${menu.price}", Toast.LENGTH_SHORT).show()
                 }, { menu->
@@ -47,7 +47,6 @@ class PlusActivity : AppCompatActivity() {
                 Log.d("error","Error - ${e}")
             }
         }
-
         Log.d("error","Error - 4")
         val thread = Thread(r)
         thread.start()
@@ -75,7 +74,7 @@ class PlusActivity : AppCompatActivity() {
             val addRunnable = Runnable {
                 val newMenu = db_menu_Entity()
                 newMenu.name = dialogName.text.toString()
-                newMenu.price = dialogPrice.text.toString().toInt()
+                newMenu.price = dialogPrice.text.toString()
                 menuDB?.menu_Dao()?.insert(newMenu)
             }
             builder.setView(dialogView).setPositiveButton("저장") { dialogInterface: DialogInterface, i: Int ->
@@ -85,5 +84,11 @@ class PlusActivity : AppCompatActivity() {
                     dialogInterface, i-> Toast.makeText(this,"가격 : ${dialogPrice.text.toString()}",Toast.LENGTH_SHORT).show()
             }.show()
         }
+    }
+
+    override fun onDestroy() {
+        Db_menu.Companion.destroyInstance()
+        menuDB = null
+        super.onDestroy()
     }
 }

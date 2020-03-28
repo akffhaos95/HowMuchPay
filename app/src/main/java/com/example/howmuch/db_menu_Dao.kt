@@ -6,8 +6,8 @@ import androidx.room.Query
 import androidx.room.OnConflictStrategy.REPLACE
 
 interface db_menu_Dao {
-    @Query("SELECT * FROM menu")
-    fun getAll(): List<Menu>
+    @Query("SELECT name,price FROM menu")
+    fun getAll(): ArrayList<Menu>
 
     @Insert(onConflict = REPLACE)
     fun insert(menu: db_menu_Entity)
