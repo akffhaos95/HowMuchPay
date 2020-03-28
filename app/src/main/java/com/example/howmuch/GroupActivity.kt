@@ -1,17 +1,18 @@
 package com.example.howmuch
 
 import android.content.DialogInterface
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_plus.*
 import java.lang.Exception
 
-class PlusActivity : AppCompatActivity() {
+class GroupActivity : AppCompatActivity() {
     private var menuDB : Db_menu? = null
     private var menu_List = listOf<Db_menu_Entity>()
     lateinit var mAdapter : MenuAdapter
@@ -21,19 +22,14 @@ class PlusActivity : AppCompatActivity() {
         setContentView(R.layout.activity_plus)
         //Room DB(db_menu)
         menuDB = Db_menu.getInstance(this)
-        mAdapter = MenuAdapter(this,  menu_List, { menu ->
-            Toast.makeText(this,"Menu ${menu.name}, Price ${menu.price}", Toast.LENGTH_SHORT).show()
-        }, { menu->
-            Toast.makeText(this, "Delete ${menu.name}",Toast.LENGTH_SHORT).show()
-        })
+
         val r = Runnable {
             try {
-                Log.d("debug","1")
                 menu_List = menuDB?.menu_Dao()?.getNP()!!
-                MenuAdapter(this, menu_List, { menu ->
+                mAdapter = MenuAdapter(this, menu_List, { menu ->
                     Toast.makeText(this,"Menu ${menu.name}, Price ${menu.price}", Toast.LENGTH_SHORT).show()
                 }, { menu->
-                    Toast.makeText(this, "Delete ${menu.name}",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this,"Menu ${menu.name} 삭제", Toast.LENGTH_SHORT).show()
                 })
                 mAdapter.notifyDataSetChanged()
                 mRecyclerView.adapter = mAdapter
@@ -59,25 +55,9 @@ class PlusActivity : AppCompatActivity() {
         }
         //Menu Plus Button
         btn_menu_plus.setOnClickListener {
-            val builder = AlertDialog.Builder(this)
-            val dialogView = layoutInflater.inflate(R.layout.dialog_plus_menu, null)
-            val dialogName = dialogView.findViewById<EditText>(R.id.txt_plus_menu_name)
-            val dialogPrice = dialogView.findViewById<EditText>(R.id.txt_plus_menu_price)
-            val addRunnable = Runnable {
-                val newMenu = Db_menu_Entity()
-                newMenu.id = 1
-                newMenu.name = dialogName.text.toString()
-                newMenu.price = dialogPrice.text.toString()
-                menuDB?.menu_Dao()?.insert(newMenu)
-                Log.d("debug",newMenu.name)
-                Log.d("debug",newMenu.price)
-            }
-            builder.setView(dialogView).setPositiveButton("저장") { dialogInterface: DialogInterface, i: Int ->
-                val addThread = Thread(addRunnable)
-                addThread.start()
-            } .setNegativeButton("취소") {
-                    dialogInterface, i-> Toast.makeText(this,"가격 : ${dialogPrice.text.toString()}",Toast.LENGTH_SHORT).show()
-            }.show()
+            val i = Intent(this, AddActivity::class.java)
+            startActivity(i)
+            finish()
         }
     }
 

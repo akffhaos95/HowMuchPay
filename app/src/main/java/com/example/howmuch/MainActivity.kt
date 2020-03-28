@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         btn_plus.setOnClickListener {
-            val plusIntent = Intent(this, PlusActivity::class.java)
+            val plusIntent = Intent(this, GroupActivity::class.java)
             startActivity(plusIntent)
         }
     }

@@ -11,7 +11,10 @@ interface Db_menu_Dao {
     fun getNP(): List<Db_menu_Entity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(menu: Db_menu_Entity)
+    fun insert(vararg menu: Db_menu_Entity)
+
+    @Query("DELETE FROM menu WHERE id = :id")
+    fun deleteMenu(id : Int?)
 
     @Query("DELETE FROM menu")
     fun deleteAll()
