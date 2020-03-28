@@ -24,6 +24,8 @@ class MenuAdapter(val context: Context, val menu_List: ArrayList<Menu>, val item
             menu_price?.text = menu.price
 
             itemView.setOnClickListener{ itemClick(menu)}
+            itemView.setOnLongClickListener{ delClick(menu)
+                return@setOnLongClickListener true }
         }
     }
     override fun onBindViewHolder(holder: Holder, position: Int) {
