@@ -8,7 +8,7 @@ import androidx.room.Query
 @Dao
 interface Db_menu_Dao {
     @Query("SELECT * FROM menu")
-    fun getNP(): List<Db_menu_Entity>
+    fun getAll(): List<Db_menu_Entity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(vararg menu: Db_menu_Entity)

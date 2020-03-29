@@ -8,33 +8,39 @@
     android:orientation="vertical"
     android:gravity="center">
     <TextView
-        android:textSize="30dp"
+        android:textSize="20dp"
         android:text="메뉴 저장"
         android:gravity="center"
         android:layout_width="300dp"
         android:layout_height="wrap_content"/>
     <EditText
-        android:id="@+id/addName"
+        android:id="@+id/txt_add_Name"
         android:hint="Name"
-        android:textSize="30dp"
+        android:textSize="20dp"
         android:singleLine="true"
         android:imeOptions="actionNext"
         android:layout_width="300dp"
         android:layout_height="wrap_content"/>
     <EditText
-        android:id="@+id/addPrice"
+        android:id="@+id/txt_add_Price"
         android:hint="Price"
-        android:textSize="30dp"
+        android:textSize="20dp"
         android:inputType="number"
         android:digits="0123456789"
         android:singleLine="true"
         android:layout_width="300dp"
         android:layout_height="wrap_content"/>
     <Button
-        android:id="@+id/addBtn"
+        android:id="@+id/btn_add_save"
         android:textSize="20dp"
         android:text="SAVE"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/btn_add_cancel"
+        android:textSize="20dp"
+        android:text="CANCEL"
         android:layout_width="300dp"
         android:layout_height="wrap_content"/>
 

@@ -19,13 +19,15 @@ class MenuAdapter(val context: Context, val menu_List: List<Db_menu_Entity>, val
     inner class Holder(itemView: View?, itemClick: (Db_menu_Entity) -> Unit, delClick: (Db_menu_Entity) -> Unit) : RecyclerView.ViewHolder(itemView!!) {
         val menu_name = itemView?.findViewById<TextView>(R.id.txt_menu_name)
         val menu_price = itemView?.findViewById<TextView>(R.id.txt_menu_price)
+
         fun bind (menu: Db_menu_Entity, context: Context) {
             menu_name?.text = menu.name
             menu_price?.text = menu.price
 
             itemView.setOnClickListener{ itemClick(menu)}
             itemView.setOnLongClickListener{ delClick(menu)
-                return@setOnLongClickListener true }
+                return@setOnLongClickListener true
+            }
         }
     }
     override fun onBindViewHolder(holder: Holder, position: Int) {
