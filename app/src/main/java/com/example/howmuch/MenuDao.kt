@@ -7,15 +7,10 @@ import androidx.room.*
 interface MenuDao {
     @Query("SELECT * FROM menu")
     fun getAll(): LiveData<List<Menu>>
-
-    @Query("SELECT * FROM menu WHERE groupId = :groupId")
-    fun getGroupMenu(groupId : Int?): LiveData<List<Menu>>
-
+    @Query("SELECT SUM(price) FROM menu WHERE groupId=0")
+    fun getPrice(): String
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(menu: Menu)
-
-    @Delete
-    fun deleteAll(menu : Menu)
 
     @Delete
     fun deleteMenu(menu : Menu)

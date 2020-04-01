@@ -10,7 +10,8 @@ class MenuRepository(application: Application) {
     private val menu: LiveData<List<Menu>> = menuDao.getAll()
 
     fun getAll(): LiveData<List<Menu>> { return menu }
-    fun getGroupMenu(groupId:Int?): LiveData<List<Menu>> { return menu }
+    fun getPrice(): String {
+        return menuDao.getPrice() }
     fun insert(menu: Menu){
         try {
             val thread = Thread(Runnable {
@@ -18,14 +19,7 @@ class MenuRepository(application: Application) {
             thread.start()
         } catch (e: Exception) { }
     }
-    fun deleteAll(menu: Menu){
-        try{
-            val thread = Thread(Runnable {
-                menuDao.deleteAll(menu) })
-            thread.start()
-        } catch (e: Exception) { }
-    }
-    fun deleteMenu(menu: Menu){
+     fun deleteMenu(menu: Menu){
         try{
             val thread = Thread(Runnable {
                 menuDao.deleteMenu(menu) })

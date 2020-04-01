@@ -11,14 +11,11 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
     fun getAll(): LiveData<List<Menu>> {
         return this.menu
     }
-    fun getGroupMenu(id: Int?): LiveData<List<Menu>> {
-        return this.menu
+    fun getPrice(): String {
+        return repository.getPrice()
     }
     fun insert(menu: Menu) {
         repository.insert(menu)
-    }
-    fun deleteAll(menu: Menu) {
-        repository.deleteAll(menu)
     }
     fun deleteMenu(menu: Menu) {
         repository.deleteMenu(menu)

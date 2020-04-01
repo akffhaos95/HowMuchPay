@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.*
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,21 +19,34 @@ class GroupActivity : AppCompatActivity(), View.OnClickListener {
         btn_result.setOnClickListener(this)
         btn_menu_plus.setOnClickListener(this)
 
-        val adapter = MenuAdapter( {menu ->
-
-        }, {menu ->
+        val adapter = MenuAdapter({ menu ->
+        }, { menu ->
             deleteDialog(menu)
         })
-
+        val r = Runnable {
+            txt_price.text = menuViewModel.getPrice().toString()
+        }
+        val thread = Thread(r)
         val layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
 
         menuViewModel = ViewModelProviders.of(this).get(MenuViewModel::class.java)
-        menuViewModel.getAll().observe(this, Observer<List<Menu>> { menu->
+        menuViewModel.getAll().observe(this, Observer<List<Menu>> { menu ->
             adapter.setMenu(menu!!)
+            thread.start()
         })
+    }
+    override fun onClick(clickView: View?) {
+        when(clickView?.id) {
+            R.id.btn_result -> {
+                deleteAllDialog(0)
+            }
+            R.id.btn_menu_plus -> {
+                insertDialog()
+            }
+        }
     }
     private fun deleteDialog(menu:Menu) {
         val builder = AlertDialog.Builder(this)
@@ -42,6 +54,15 @@ class GroupActivity : AppCompatActivity(), View.OnClickListener {
             .setNegativeButton("No") {_, _ ->}
             .setPositiveButton("Yes") {_, _ ->
                 menuViewModel.deleteMenu(menu)
+            }
+        builder.show()
+    }
+    private fun deleteAllDialog(groupId:Int?) {
+        val builder = AlertDialog.Builder(this)
+        builder.setMessage("Delete all are you sure?")
+            .setNegativeButton("No") {_, _ ->}
+            .setPositiveButton("Yes") {_, _ ->
+                //menuViewModel.deleteAll(groupId)
             }
         builder.show()
     }
@@ -57,20 +78,7 @@ class GroupActivity : AppCompatActivity(), View.OnClickListener {
                 newMenu.price  = dialogPrice.text.toString()
                 menuViewModel.insert(newMenu)
             }
-            .setNegativeButton("Cancel") { dialogInterface, i ->
-
-            }
+            .setNegativeButton("Cancel") { dialogInterface, i -> }
             .show()
-    }
-    override fun onClick(clickView: View?) {
-        when(clickView?.id) {
-            R.id.btn_result -> {
-                //menuViewModel.deleteAll(menu)
-                Toast.makeText(this,"전체 삭제", Toast.LENGTH_SHORT).show()
-            }
-            R.id.btn_menu_plus -> {
-                insertDialog()
-            }
-        }
     }
 }
