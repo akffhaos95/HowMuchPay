@@ -11,7 +11,8 @@ class MenuRepository(application: Application) {
 
     fun getAll(): LiveData<List<Menu>> { return menu }
     fun getPrice(): String {
-        return menuDao.getPrice() }
+        return menuDao.getPrice()
+    }
     fun insert(menu: Menu){
         try {
             val thread = Thread(Runnable {

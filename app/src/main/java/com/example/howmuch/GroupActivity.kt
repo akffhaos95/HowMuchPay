@@ -23,10 +23,6 @@ class GroupActivity : AppCompatActivity(), View.OnClickListener {
         }, { menu ->
             deleteDialog(menu)
         })
-        val r = Runnable {
-            txt_price.text = menuViewModel.getPrice().toString()
-        }
-        val thread = Thread(r)
         val layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = layoutManager
@@ -35,7 +31,6 @@ class GroupActivity : AppCompatActivity(), View.OnClickListener {
         menuViewModel = ViewModelProviders.of(this).get(MenuViewModel::class.java)
         menuViewModel.getAll().observe(this, Observer<List<Menu>> { menu ->
             adapter.setMenu(menu!!)
-            thread.start()
         })
     }
     override fun onClick(clickView: View?) {
