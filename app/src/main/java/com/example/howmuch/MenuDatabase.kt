@@ -5,18 +5,17 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [Db_menu_Entity::class], version = 2)
-abstract class Db_menu: RoomDatabase() {
-    abstract fun menu_Dao(): Db_menu_Dao
+@Database(entities = [Menu::class], version = 2)
+abstract class MenuDatabase: RoomDatabase() {
+    abstract fun menu_Dao(): MenuDao
 
     companion object {
-        private var INSTANCE: Db_menu? = null
-
-        fun getInstance(context: Context): Db_menu? {
+        private var INSTANCE: MenuDatabase? = null
+        fun getInstance(context: Context): MenuDatabase? {
             if (INSTANCE == null){
-                synchronized(Db_menu::class){
+                synchronized(MenuDatabase::class){
                     INSTANCE = Room.databaseBuilder(context.applicationContext,
-                        Db_menu::class.java, "menu.db")
+                        MenuDatabase::class.java, "menu.db")
                         .fallbackToDestructiveMigration()
                         .build()
                 }
