@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MenuActivity"
+    tools:context=".MemberActivity"
     android:orientation="vertical">
 
     <LinearLayout
@@ -18,53 +18,23 @@
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"/>
-        <EditText
-            android:id="@+id/txt_plus_member"
+        <TextView
+            android:id="@+id/txt_member"
             android:textSize="80px"
             android:hint="0"
             android:layout_weight="3"
-            android:inputType="number"
             android:layout_width="100px"
-            android:digits="0123456789"
-            android:singleLine="true"
-            android:imeOptions="actionNext"
-            android:layout_height="match_parent"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:weightSum="10">
-        <TextView
-            android:text="금액 :"
-            android:textSize="80px"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"/>
-        <TextView
-            android:id="@+id/txt_price"
-            android:textSize="80px"
-            android:hint="0"
-            android:layout_weight="3"
-            android:inputType="number"
-            android:layout_width="100px"
-            android:digits="0123456789"
             android:layout_height="match_parent"/>
     </LinearLayout>
     <Button
-        android:id="@+id/btn_result"
+        android:id="@+id/btn_member_add"
         android:textSize="80px"
-        android:text="계산"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <TextView
-        android:id="@+id/txt_result"
-        android:textSize="80px"
-        android:hint="결과"
+        android:text="인원 추가"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <Button
-        android:id="@+id/btn_menu_plus"
+        android:id="@+id/btn_menu"
+        android:text="메뉴로 이동"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <androidx.recyclerview.widget.RecyclerView

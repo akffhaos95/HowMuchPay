@@ -5,25 +5,22 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = [Menu::class], version = 2)
-abstract class MenuDatabase: RoomDatabase() {
-    abstract fun menu_Dao(): MenuDao
+@Database(entities = arrayOf(Menu::class,Member::class), version = 2)
+abstract class HMDatabase: RoomDatabase() {
+    abstract fun hmDao(): HMDao
 
     companion object {
-        private var INSTANCE: MenuDatabase? = null
-        fun getInstance(context: Context): MenuDatabase? {
+        private var INSTANCE: HMDatabase? = null
+        fun getInstance(context: Context): HMDatabase? {
             if (INSTANCE == null){
-                synchronized(MenuDatabase::class){
+                synchronized(HMDatabase::class){
                     INSTANCE = Room.databaseBuilder(context.applicationContext,
-                        MenuDatabase::class.java, "menu.db")
+                        HMDatabase::class.java, "howmuch.db")
                         .fallbackToDestructiveMigration()
                         .build()
                 }
             }
             return INSTANCE
-        }
-        fun destroyInstance() {
-            INSTANCE = null
         }
     }
 }
