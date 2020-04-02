@@ -11,8 +11,9 @@ class MenuViewModel(application: Application) : AndroidViewModel(application) {
     fun getAll(): LiveData<List<Menu>> {
         return this.menu
     }
-    fun getPrice(): String {
-        return repository.getPrice()
+    fun getPrice(groupId:Int?): LiveData<String> {
+        val price = repository.getPrice(groupId)
+        return price
     }
     fun insert(menu: Menu) {
         repository.insert(menu)

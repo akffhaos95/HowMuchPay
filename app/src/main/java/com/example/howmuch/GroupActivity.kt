@@ -18,7 +18,7 @@ class GroupActivity : AppCompatActivity(), View.OnClickListener {
 
         btn_result.setOnClickListener(this)
         btn_menu_plus.setOnClickListener(this)
-
+        val groupId = 0
         val adapter = MenuAdapter({ menu ->
         }, { menu ->
             deleteDialog(menu)
@@ -31,6 +31,9 @@ class GroupActivity : AppCompatActivity(), View.OnClickListener {
         menuViewModel = ViewModelProviders.of(this).get(MenuViewModel::class.java)
         menuViewModel.getAll().observe(this, Observer<List<Menu>> { menu ->
             adapter.setMenu(menu!!)
+        })
+        menuViewModel.getPrice(groupId).observe(this, Observer { price ->
+            txt_price.text = price
         })
     }
     override fun onClick(clickView: View?) {

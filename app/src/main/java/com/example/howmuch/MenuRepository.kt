@@ -10,8 +10,8 @@ class MenuRepository(application: Application) {
     private val menu: LiveData<List<Menu>> = menuDao.getAll()
 
     fun getAll(): LiveData<List<Menu>> { return menu }
-    fun getPrice(): String {
-        return menuDao.getPrice()
+    fun getPrice(groupId:Int?): LiveData<String> {
+        return menuDao.getPrice(groupId)
     }
     fun insert(menu: Menu){
         try {
