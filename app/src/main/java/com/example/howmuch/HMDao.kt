@@ -28,12 +28,15 @@ interface HMDao {
     @Delete
     fun deleteMenu(menu : Menu)
 
+    //Menu join Member
+    /*@Query("SELECT SUM(price) FROM menu, member WHERE groupId=:groupId")
+    fun getMemberPrice(groupId: Int?)*/
     //Member
     //SELECT
-    @Query("SELECT COUNT(*) FROM member WHERE groupId=:groupId")
-    fun getMemberCnt(groupId: Int?): LiveData<Int>
     @Query("SELECT * FROM member WHERE groupId=:groupId")
     fun getAllMember(groupId: Int?): LiveData<List<Member>>
+    @Query("SELECT COUNT(*) FROM member WHERE groupId=:groupId")
+    fun getMemberCnt(groupId: Int?): LiveData<Int>
     //INSERT
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertMember(member: Member)
