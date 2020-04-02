@@ -1,82 +1,83 @@
 package com.example.howmuch
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import android.widget.EditText
-import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.*
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_plus.*
 
+
 class GroupActivity : AppCompatActivity(), View.OnClickListener {
-    private lateinit var menuViewModel: MenuViewModel
+    private var menuDB : Db_menu? = null
+    private var menu_List = LiveData<Db_menu_Entity>()
+    lateinit var mAdapter : MenuAdapter
+    private var menuView = MenuViewModel(application)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_plus)
-
         btn_result.setOnClickListener(this)
         btn_menu_plus.setOnClickListener(this)
-        val groupId = 0
-        val adapter = MenuAdapter({ menu ->
-        }, { menu ->
-            deleteDialog(menu)
-        })
-        val layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = layoutManager
-        recyclerView.setHasFixedSize(true)
+        menuDB = Db_menu.getInstance(this)
+    }
+    override fun onResume() {
+        super.onResume()
+        val thread = Thread(r)
+        thread.start()
+    }
 
-        menuViewModel = ViewModelProviders.of(this).get(MenuViewModel::class.java)
-        menuViewModel.getAll().observe(this, Observer<List<Menu>> { menu ->
-            adapter.setMenu(menu!!)
-        })
-        menuViewModel.getPrice(groupId).observe(this, Observer { price ->
-            txt_price.text = price
-        })
+    val r = Runnable {
+        try {
+            mAdapter = MenuAdapter(this, menu_List, { menu ->
+                Toast.makeText(this,"Menu ${menu.name}, Price ${menu.price}", Toast.LENGTH_SHORT).show()
+            }, { menu ->
+                val del = Runnable {
+                    try{
+                        menuDB?.menu_Dao()?.deleteMenu(menu.id)!!
+                    } catch (e: Exception){ Log.d("error","Error2 - ${e}") }
+                }
+                val del_thread = Thread(del)
+                del_thread.start()
+                del_thread.join()
+                mAdapter.notifyDataSetChanged()
+                Toast.makeText(this,"Menu : ${menu.name} 삭제", Toast.LENGTH_SHORT).show()
+            })
+            mAdapter.notifyDataSetChanged()
+            mRecyclerView.adapter = mAdapter
+            mRecyclerView.layoutManager = LinearLayoutManager(this)
+            mRecyclerView.setHasFixedSize(true)
+        } catch (e: Exception){
+            Log.d("error","Error - ${e}")
+        }
     }
     override fun onClick(clickView: View?) {
         when(clickView?.id) {
             R.id.btn_result -> {
-                deleteAllDialog(0)
+                val delAll = Runnable {
+                    try{ menuDB?.menu_Dao()?.deleteAll()!!
+                    } catch (e: Exception){ Log.d("error","Error2 - ${e}")
+                    }
+                }
+                val delAll_thread = Thread(delAll)
+                delAll_thread.start()
+                menu_List.clear()
+                mAdapter.notifyDataSetChanged()
+                Toast.makeText(this,"전체 삭제", Toast.LENGTH_SHORT).show()
             }
             R.id.btn_menu_plus -> {
-                insertDialog()
+                val add = Intent(this, AddActivity::class.java)
+                startActivity(add)
+                finish()
             }
         }
     }
-    private fun deleteDialog(menu:Menu) {
-        val builder = AlertDialog.Builder(this)
-        builder.setMessage("Delete selected menu?")
-            .setNegativeButton("No") {_, _ ->}
-            .setPositiveButton("Yes") {_, _ ->
-                menuViewModel.deleteMenu(menu)
-            }
-        builder.show()
-    }
-    private fun deleteAllDialog(groupId:Int?) {
-        val builder = AlertDialog.Builder(this)
-        builder.setMessage("Delete all are you sure?")
-            .setNegativeButton("No") {_, _ ->}
-            .setPositiveButton("Yes") {_, _ ->
-                //menuViewModel.deleteAll(groupId)
-            }
-        builder.show()
-    }
-    private fun insertDialog() {
-        val builder = AlertDialog.Builder(this)
-        val dialogView = layoutInflater.inflate(R.layout.dialog_insert, null)
-        val dialogName = dialogView.findViewById<EditText>(R.id.txt_insert_Name)
-        val dialogPrice = dialogView.findViewById<EditText>(R.id.txt_insert_Price)
-        builder.setView(dialogView)
-            .setPositiveButton("Save") { dialogInterface, i ->
-                val newMenu = Menu()
-                newMenu.name  = dialogName.text.toString()
-                newMenu.price  = dialogPrice.text.toString()
-                menuViewModel.insert(newMenu)
-            }
-            .setNegativeButton("Cancel") { dialogInterface, i -> }
-            .show()
+    override fun onDestroy() {
+        Db_menu.destroyInstance()
+        menuDB = null
+        super.onDestroy()
     }
 }
