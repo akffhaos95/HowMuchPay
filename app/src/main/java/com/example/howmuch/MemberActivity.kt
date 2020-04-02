@@ -1,24 +1,28 @@
 package com.example.howmuch
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.*
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_member.*
-import kotlinx.android.synthetic.main.activity_plus.*
 import kotlinx.android.synthetic.main.activity_plus.recyclerView
+
 
 class MemberActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var viewModel: ViewModel
+    var groupId = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_member)
+        if (intent.hasExtra("groupId")) {
+            groupId = intent.getIntExtra("groupId",0)
+        }
 
         btn_member_add.setOnClickListener(this)
         btn_menu.setOnClickListener(this)
@@ -33,10 +37,9 @@ class MemberActivity : AppCompatActivity(), View.OnClickListener {
         recyclerView.setHasFixedSize(true)
 
         viewModel = ViewModelProviders.of(this).get(ViewModel::class.java)
-        viewModel.getAllMember().observe(this, Observer<List<Member>> { member ->
+        viewModel.getAllMember(groupId).observe(this, Observer<List<Member>> { member ->
             adapter.setMember(member!!)
         })
-        val groupId = 0
         viewModel.getMemberCnt(groupId).observe(this, Observer<Int> { cnt ->
             txt_member.text = cnt.toString()
         })
@@ -49,7 +52,7 @@ class MemberActivity : AppCompatActivity(), View.OnClickListener {
                 finish()
             }
             R.id.btn_member_add -> {
-                insertDialog()
+                insertDialog(groupId)
             }
         }
     }
@@ -71,7 +74,7 @@ class MemberActivity : AppCompatActivity(), View.OnClickListener {
             }
         builder.show()
     }
-    private fun insertDialog() {
+    private fun insertDialog(groupId: Int?) {
         val builder = AlertDialog.Builder(this)
         val dialogView = layoutInflater.inflate(R.layout.dialog_insert, null)
         val dialogName = dialogView.findViewById<EditText>(R.id.txt_insert_Name)
@@ -79,6 +82,7 @@ class MemberActivity : AppCompatActivity(), View.OnClickListener {
             .setPositiveButton("Save") { dialogInterface, i ->
                 val newMember = Member()
                 newMember.name  = dialogName.text.toString()
+                newMember.groupId = groupId
                 viewModel.insertMember(newMember)
             }
             .setNegativeButton("Cancel") { dialogInterface, i -> }

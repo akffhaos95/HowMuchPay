@@ -8,16 +8,26 @@ class Repository(application: Application) {
     private val hmDatabase = HMDatabase.getInstance(application)!!
     private val hmDao : HMDao = hmDatabase.hmDao()
     private val menu: LiveData<List<Menu>> = hmDao.getAllMenu()
-    private val member: LiveData<List<Member>> = hmDao.getAllMember()
+    private val grouper: LiveData<List<Group>> = hmDao.getAllGroup()
 
+    //Group
+    //SELECT
+    fun getAllGroup(): LiveData<List<Group>> { return grouper }
+    fun insertGroup(group: Group){
+        try {
+            val thread = Thread(Runnable {
+                hmDao.insertGroup(group) })
+            thread.start()
+        } catch (e: Exception) { }
+    }
+
+    //Menu
+    //SELECT
     fun getAllMenu(): LiveData<List<Menu>> { return menu }
-    fun getAllMember(): LiveData<List<Member>> { return member }
     fun getPrice(groupId:Int?): LiveData<String> {
         return hmDao.getPrice(groupId)
     }
-    fun getMemberCnt(groupId:Int?): LiveData<Int> {
-        return hmDao.getMemberCnt(groupId)
-    }
+    //INSERT
     fun insertMenu(menu: Menu){
         try {
             val thread = Thread(Runnable {
@@ -25,13 +35,7 @@ class Repository(application: Application) {
             thread.start()
         } catch (e: Exception) { }
     }
-    fun insertMember(member: Member){
-        try {
-            val thread = Thread(Runnable {
-                hmDao.insertMember(member) })
-            thread.start()
-        } catch (e: Exception) { }
-    }
+    //DELETE
     fun deleteAll(groupId: Int?){
         try{
             val thread = Thread(Runnable {
@@ -43,9 +47,27 @@ class Repository(application: Application) {
         try{
             val thread = Thread(Runnable {
                 hmDao.deleteMenu(menu) })
-        thread.start()
+            thread.start()
         } catch (e: Exception) { }
     }
+
+    //Member
+    //SELECT
+    fun getAllMember(groupId: Int?): LiveData<List<Member>> {
+        return hmDao.getAllMember(groupId)
+    }
+    fun getMemberCnt(groupId:Int?): LiveData<Int> {
+        return hmDao.getMemberCnt(groupId)
+    }
+    //INSERT
+    fun insertMember(member: Member){
+        try {
+            val thread = Thread(Runnable {
+                hmDao.insertMember(member) })
+            thread.start()
+        } catch (e: Exception) { }
+    }
+    //DELETE
     fun deleteMember(member: Member){
         try{
             val thread = Thread(Runnable {

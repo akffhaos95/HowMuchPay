@@ -11,5 +11,9 @@
         android:text="추가"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
-
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/mainRecyclerView"
+        android:layout_margin="8dp"/>
 </LinearLayout>

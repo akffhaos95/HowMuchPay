@@ -1,6 +1,7 @@
 package com.example.howmuch
 
 import androidx.room.*
+import java.util.*
 
 @Entity(tableName = "menu")
 class Menu constructor(@PrimaryKey(autoGenerate = true) var id: Int?,
@@ -9,7 +10,7 @@ class Menu constructor(@PrimaryKey(autoGenerate = true) var id: Int?,
                                @ColumnInfo(name = "groupId") var groupId: Int?
 ) { constructor(): this(null,"","",0) }
 
-@Entity(tableName = "group")
+@Entity(tableName = "grouper")
 class Group constructor(@PrimaryKey(autoGenerate = true) var id: Int?,
                         @ColumnInfo(name = "name") var name: String?
 ){ constructor(): this(null,"") }
