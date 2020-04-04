@@ -6,11 +6,12 @@
         android:id="@+id/btn_plus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/mainRecyclerView"
         android:text="추가" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="600dp"
         android:id="@+id/mainRecyclerView"
         android:layout_margin="8dp"/>
 </RelativeLayout>

@@ -10,8 +10,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.android.synthetic.main.main_home.*
 
 class MainHomeFragment : Fragment() {
@@ -19,7 +18,7 @@ class MainHomeFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.main_home, container, false)
-    }
+}
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,7 +34,7 @@ class MainHomeFragment : Fragment() {
             insertDialog(group)
             //deleteDialog(group)
         })
-        val layoutManager = LinearLayoutManager(getActivity())
+        val layoutManager = GridLayoutManager(getActivity(),2)
         mainRecyclerView.adapter = adapter
         mainRecyclerView.layoutManager = layoutManager
         mainRecyclerView.setHasFixedSize(true)
