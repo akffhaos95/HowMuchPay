@@ -26,7 +26,7 @@ class GroupAdapter(val context: Context?, val itemClick: (Group) -> Unit, val de
 
         fun bind (group: Group) {
             group_name?.text = group.name
-            //group_cnt?.text = cnt.toString() + "명"
+            //group_cnt?.text = group. + "명"
 
             itemView.setOnClickListener{ itemClick(group) }
             itemView.setOnLongClickListener{

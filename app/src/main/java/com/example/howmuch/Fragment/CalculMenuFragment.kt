@@ -1,6 +1,5 @@
 package com.example.howmuch
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,7 +11,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.calcul_member.*
 import kotlinx.android.synthetic.main.calcul_menu.*
+import kotlinx.android.synthetic.main.calcul_menu.recyclerView
 
 class CalculMenuFragment: Fragment() {
     private lateinit var viewModel: ViewModel
@@ -24,16 +25,15 @@ class CalculMenuFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d("debug1","calcul menu")
 
+        groupId = arguments!!.getInt("groupId")
         btn_result.setOnClickListener {
             Log.d("test","test")
         }
-        btn_menu_plus.setOnClickListener{
-            insertDialog(groupId)
-        }
+        btn_menu_plus.setOnClickListener{ insertDialog(groupId) }
 
         val adapter = MemberAdapter({ member ->
+
         }, { member ->
             deleteDialog(member)
         })
@@ -47,7 +47,7 @@ class CalculMenuFragment: Fragment() {
             adapter.setMember(member!!)
         })
         viewModel.getMemberCnt(groupId).observe(this, Observer<Int> { cnt ->
-            //txt_member.text = cnt.toString()
+            txt_member.text = cnt.toString()
         })
     }
 
