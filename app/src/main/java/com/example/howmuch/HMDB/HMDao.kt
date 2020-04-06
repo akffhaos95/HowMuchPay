@@ -12,6 +12,8 @@ interface HMDao {
     //INSERT
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertGroup(group: Group)
+    @Delete
+    fun deleteGroup(group: Group)
 
     //Menu
     //SELECT

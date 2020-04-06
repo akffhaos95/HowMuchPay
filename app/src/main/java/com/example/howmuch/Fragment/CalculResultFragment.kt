@@ -6,9 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 
-class MainSettingFragment : Fragment() {
+class CalculResultFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.main_setting, container, false)
+        return inflater.inflate(R.layout.calcul_result, container, false)
     }
 }

@@ -1,30 +1,44 @@
 package com.example.howmuch
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.*
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.activity_plus.*
+import kotlinx.android.synthetic.main.calcul_member.*
 
-class MenuActivity : AppCompatActivity(), View.OnClickListener {
+class CalculMemberFragment: Fragment() {
     private lateinit var viewModel: ViewModel
+    var groupId = 0
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_plus)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.calcul_member, container, false)
+    }
 
-        btn_result.setOnClickListener(this)
-        btn_menu_plus.setOnClickListener(this)
-        val groupId = 0
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val args = arguments
+        groupId = args!!.getInt("groupId", 0)
+
+        btn_menu.setOnClickListener{
+            Log.d("test","test")
+        }
+        btn_member_add.setOnClickListener{
+            insertDialog(null)
+        }
         val adapter = MenuAdapter({ menu ->
             insertDialog(menu)
         }, { menu ->
             deleteDialog(menu)
         })
-        val layoutManager = LinearLayoutManager(this)
+        val layoutManager = LinearLayoutManager(getActivity())
         recyclerView.adapter = adapter
         recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
@@ -34,21 +48,12 @@ class MenuActivity : AppCompatActivity(), View.OnClickListener {
             adapter.setMenu(menu!!)
         })
         viewModel.getPrice(groupId).observe(this, Observer { price ->
-            txt_price.text = price
+            txt_member.text = price
         })
     }
-    override fun onClick(clickView: View?) {
-        when(clickView?.id) {
-            R.id.btn_result -> {
-                deleteAllDialog(0)
-            }
-            R.id.btn_menu_plus -> {
-                insertDialog(null)
-            }
-        }
-    }
+
     private fun deleteDialog(menu:Menu) {
-        val builder = AlertDialog.Builder(this)
+        val builder = AlertDialog.Builder(getContext()!!)
         builder.setMessage("Delete selected menu?")
             .setNegativeButton("No") {_, _ ->}
             .setPositiveButton("Yes") {_, _ ->
@@ -57,7 +62,7 @@ class MenuActivity : AppCompatActivity(), View.OnClickListener {
         builder.show()
     }
     private fun deleteAllDialog(groupId:Int?) {
-        val builder = AlertDialog.Builder(this)
+        val builder = AlertDialog.Builder(getContext()!!)
         builder.setMessage("Delete all are you sure?")
             .setNegativeButton("No") {_, _ ->}
             .setPositiveButton("Yes") {_, _ ->
@@ -66,7 +71,7 @@ class MenuActivity : AppCompatActivity(), View.OnClickListener {
         builder.show()
     }
     private fun insertDialog(menu: Menu?) {
-        val builder = AlertDialog.Builder(this)
+        val builder = AlertDialog.Builder(getContext()!!)
         val dialogView = layoutInflater.inflate(R.layout.dialog_insert, null)
         val dialogName = dialogView.findViewById<EditText>(R.id.txt_insert_Name)
         val dialogPrice = dialogView.findViewById<EditText>(R.id.txt_insert_Price)

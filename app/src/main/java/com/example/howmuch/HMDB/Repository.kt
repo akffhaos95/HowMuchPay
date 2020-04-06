@@ -20,6 +20,13 @@ class Repository(application: Application) {
             thread.start()
         } catch (e: Exception) { }
     }
+    fun deleteGroup(group: Group){
+        try {
+            val thread = Thread(Runnable {
+                hmDao.deleteGroup(group) })
+            thread.start()
+        } catch (e: Exception) { }
+    }
 
     //Menu
     //SELECT

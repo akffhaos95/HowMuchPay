@@ -1,12 +1,13 @@
 package com.example.howmuch
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class GroupAdapter(val itemClick: (Group) -> Unit, val delClick: (Group) -> Unit) :
+class GroupAdapter(val context: Context?, val itemClick: (Group) -> Unit, val delClick: (Group) -> Unit) :
     RecyclerView.Adapter<GroupAdapter.ViewHolder>() {
     private var group: List<Group> = listOf()
     override fun onCreateViewHolder(parent: ViewGroup, i: Int): ViewHolder {

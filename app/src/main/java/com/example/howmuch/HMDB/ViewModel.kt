@@ -16,6 +16,9 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
     fun insertGroup(group: Group){
         repository.insertGroup(group)
     }
+    fun deleteGroup(group: Group) {
+        repository.deleteGroup(group)
+    }
 
     //Menu
     fun getAllMenu(): LiveData<List<Menu>> {
