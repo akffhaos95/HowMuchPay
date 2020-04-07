@@ -17,8 +17,8 @@ interface HMDao {
 
     //Menu
     //SELECT
-    @Query("SELECT * FROM menu")
-    fun getAllMenu(): LiveData<List<Menu>>
+    @Query("SELECT * FROM menu WHERE groupId= :groupId")
+    fun getAllMenu(groupId: Int?): LiveData<List<Menu>>
     @Query("SELECT SUM(price) FROM menu WHERE groupId= :groupId")
     fun getPrice(groupId: Int?): LiveData<String>
     //INSERT

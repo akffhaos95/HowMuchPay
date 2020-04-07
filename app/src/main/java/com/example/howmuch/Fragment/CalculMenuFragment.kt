@@ -21,42 +21,42 @@ class CalculMenuFragment: Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.calcul_menu, container, false)
+        Log.d("debug1","onCreateView")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        Log.d("debug1","onViewCreated")
         groupId = arguments!!.getInt("groupId")
-        btn_result.setOnClickListener {
-            Log.d("test","test")
-        }
-        btn_menu_plus.setOnClickListener{ insertDialog(groupId) }
+        Log.d("debug1","onViewCreated1")
+        btn_menu_add.setOnClickListener{ insertDialog(null) }
+        val adapter = MenuAdapter({ menu -> insertDialog(menu)
+        }, { menu -> deleteDialog(menu) })
 
-        val adapter = MemberAdapter({ member ->
-
-        }, { member ->
-            deleteDialog(member)
-        })
         val layoutManager = LinearLayoutManager(getActivity())
         recyclerView.adapter = adapter
         recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
+        Log.d("debug1","onViewCreated2")
 
         viewModel = ViewModelProviders.of(this).get(ViewModel::class.java)
-        viewModel.getAllMember(groupId).observe(this, Observer<List<Member>> { member ->
-            adapter.setMember(member!!)
+        viewModel.getAllMenu(groupId).observe(this, Observer<List<Menu>> { menu ->
+            adapter.setMenu(menu!!)
         })
-        viewModel.getMemberCnt(groupId).observe(this, Observer<Int> { cnt ->
-            txt_member.text = cnt.toString()
+        Log.d("debug1","onViewCreated3")
+
+        viewModel.getPrice(groupId).observe(this, Observer { price ->
+            txt_menu.text = price
         })
     }
 
-    private fun deleteDialog(member:Member) {
+    private fun deleteDialog(menu:Menu) {
         val builder = AlertDialog.Builder(getContext()!!)
         builder.setMessage("Delete selected menu?")
             .setNegativeButton("No") {_, _ ->}
             .setPositiveButton("Yes") {_, _ ->
-                viewModel.deleteMember(member)
+                viewModel.deleteMenu(menu)
             }
         builder.show()
     }
@@ -69,18 +69,32 @@ class CalculMenuFragment: Fragment() {
             }
         builder.show()
     }
-    private fun insertDialog(groupId: Int?) {
+    private fun insertDialog(menu: Menu?) {
         val builder = AlertDialog.Builder(getContext()!!)
         val dialogView = layoutInflater.inflate(R.layout.dialog_insert, null)
         val dialogName = dialogView.findViewById<EditText>(R.id.txt_insert_Name)
-        builder.setView(dialogView)
-            .setPositiveButton("Save") { dialogInterface, i ->
-                val newMember = Member()
-                newMember.name  = dialogName.text.toString()
-                newMember.groupId = groupId
-                viewModel.insertMember(newMember)
-            }
-            .setNegativeButton("Cancel") { dialogInterface, i -> }
-            .show()
+        val dialogPrice = dialogView.findViewById<EditText>(R.id.txt_insert_Price)
+        if(menu==null) {
+            builder.setView(dialogView)
+                .setPositiveButton("Save") { dialogInterface, i ->
+                    val newMenu = Menu()
+                    newMenu.name  = dialogName.text.toString()
+                    newMenu.price  = dialogPrice.text.toString()
+                    viewModel.insertMenu(newMenu)
+                }
+                .setNegativeButton("Cancel") { dialogInterface, i -> }
+                .show()
+        } else {
+            dialogName.setText(menu.name)
+            dialogPrice.setText(menu.price)
+            builder.setView(dialogView)
+                .setPositiveButton("Save") { dialogInterface, i ->
+                    menu.name  = dialogName.text.toString()
+                    menu.price  = dialogPrice.text.toString()
+                    viewModel.insertMenu(menu)
+                }
+                .setNegativeButton("Cancel") { dialogInterface, i -> }
+                .show()
+        }
     }
 }

@@ -6,7 +6,6 @@ import androidx.lifecycle.LiveData
 
 class ViewModel(application: Application) : AndroidViewModel(application) {
     private val repository = Repository(application)
-    private val menu = repository.getAllMenu()
     private val group = repository.getAllGroup()
 
     //Group
@@ -21,8 +20,8 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     //Menu
-    fun getAllMenu(): LiveData<List<Menu>> {
-        return this.menu
+    fun getAllMenu(groupId: Int?): LiveData<List<Menu>> {
+        return repository.getAllMenu(groupId)
     }
     fun getPrice(groupId:Int?): LiveData<String> {
         return repository.getPrice(groupId)

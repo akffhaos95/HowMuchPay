@@ -7,7 +7,6 @@ import java.lang.Exception
 class Repository(application: Application) {
     private val hmDatabase = HMDatabase.getInstance(application)!!
     private val hmDao : HMDao = hmDatabase.hmDao()
-    private val menu: LiveData<List<Menu>> = hmDao.getAllMenu()
     private val grouper: LiveData<List<Group>> = hmDao.getAllGroup()
 
     //Group
@@ -30,7 +29,8 @@ class Repository(application: Application) {
 
     //Menu
     //SELECT
-    fun getAllMenu(): LiveData<List<Menu>> { return menu }
+    fun getAllMenu(groupId: Int?): LiveData<List<Menu>> {
+        return hmDao.getAllMenu(groupId) }
     fun getPrice(groupId:Int?): LiveData<String> {
         return hmDao.getPrice(groupId)
     }

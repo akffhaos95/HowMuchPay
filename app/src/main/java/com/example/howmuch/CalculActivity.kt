@@ -23,17 +23,17 @@ class CalculActivity : AppCompatActivity() {
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_navigation2)
         bottomNav.setOnNavigationItemSelectedListener(navListener)
 
+        var bundle = Bundle()
+        bundle.putInt("groupId", groupId)
+        calculMenu.arguments = bundle
+        calculMember.arguments = bundle
+        calculResult.arguments = bundle
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction().replace(R.id.fragment_container2, calculMenu).commit()
         }
     }
     private val navListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         var selectedFragment: Fragment = calculMenu
-        var bundle = Bundle()
-        bundle.putInt("groupId", groupId)
-        calculMenu.arguments = bundle
-        calculMember.arguments = bundle
-        calculResult.arguments = bundle
         when(item.itemId) {
             R.id.nav_menu ->  selectedFragment = calculMenu
             R.id.nav_member -> selectedFragment = calculMember

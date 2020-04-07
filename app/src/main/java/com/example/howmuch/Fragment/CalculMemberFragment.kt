@@ -24,40 +24,32 @@ class CalculMemberFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val args = arguments
-        groupId = args!!.getInt("groupId", 0)
+        groupId = arguments!!.getInt("groupId")
+        btn_member_add.setOnClickListener{ insertDialog(null) }
 
-        btn_menu.setOnClickListener{
-            Log.d("test","test")
-        }
-        btn_member_add.setOnClickListener{
-            insertDialog(null)
-        }
-        val adapter = MenuAdapter({ menu ->
-            insertDialog(menu)
-        }, { menu ->
-            deleteDialog(menu)
-        })
+        val adapter = MemberAdapter({ member -> insertDialog(member)
+        }, { member -> deleteDialog(member) })
+
         val layoutManager = LinearLayoutManager(getActivity())
         recyclerView.adapter = adapter
         recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
 
         viewModel = ViewModelProviders.of(this).get(ViewModel::class.java)
-        viewModel.getAllMenu().observe(this, Observer<List<Menu>> { menu ->
-            adapter.setMenu(menu!!)
+        viewModel.getAllMember(groupId).observe(this, Observer<List<Member>> { member ->
+            adapter.setMember(member!!)
         })
-        viewModel.getPrice(groupId).observe(this, Observer { price ->
-            txt_member.text = price
+        viewModel.getMemberCnt(groupId).observe(this, Observer { cnt ->
+            txt_member.text = cnt.toString()
         })
     }
 
-    private fun deleteDialog(menu:Menu) {
+    private fun deleteDialog(member: Member) {
         val builder = AlertDialog.Builder(getContext()!!)
-        builder.setMessage("Delete selected menu?")
+        builder.setMessage("Delete selected member?")
             .setNegativeButton("No") {_, _ ->}
             .setPositiveButton("Yes") {_, _ ->
-                viewModel.deleteMenu(menu)
+                viewModel.deleteMember(member)
             }
         builder.show()
     }
@@ -70,32 +62,18 @@ class CalculMemberFragment: Fragment() {
             }
         builder.show()
     }
-    private fun insertDialog(menu: Menu?) {
+    private fun insertDialog(member: Member?) {
         val builder = AlertDialog.Builder(getContext()!!)
         val dialogView = layoutInflater.inflate(R.layout.dialog_insert, null)
         val dialogName = dialogView.findViewById<EditText>(R.id.txt_insert_Name)
-        val dialogPrice = dialogView.findViewById<EditText>(R.id.txt_insert_Price)
-        if(menu==null) {
-            builder.setView(dialogView)
-                .setPositiveButton("Save") { dialogInterface, i ->
-                    val newMenu = Menu()
-                    newMenu.name  = dialogName.text.toString()
-                    newMenu.price  = dialogPrice.text.toString()
-                    viewModel.insertMenu(newMenu)
-                }
-                .setNegativeButton("Cancel") { dialogInterface, i -> }
-                .show()
-        } else {
-            dialogName.setText(menu.name)
-            dialogPrice.setText(menu.price)
-            builder.setView(dialogView)
-                .setPositiveButton("Save") { dialogInterface, i ->
-                    menu.name  = dialogName.text.toString()
-                    menu.price  = dialogPrice.text.toString()
-                    viewModel.insertMenu(menu)
-                }
-                .setNegativeButton("Cancel") { dialogInterface, i -> }
-                .show()
-        }
+        builder.setView(dialogView)
+            .setPositiveButton("Save") { dialogInterface, i ->
+                val newMember = Member()
+                newMember.name  = dialogName.text.toString()
+                newMember.groupId = groupId
+                viewModel.insertMember(newMember)
+            }
+            .setNegativeButton("Cancel") { dialogInterface, i -> }
+            .show()
     }
 }
