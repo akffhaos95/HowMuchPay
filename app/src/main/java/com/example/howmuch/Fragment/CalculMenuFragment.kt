@@ -21,31 +21,30 @@ class CalculMenuFragment: Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.calcul_menu, container, false)
-        Log.d("debug1","onCreateView")
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Log.d("debug1","onViewCreated")
         groupId = arguments!!.getInt("groupId")
-        Log.d("debug1","onViewCreated1")
-        btn_menu_add.setOnClickListener{ insertDialog(null) }
-        val adapter = MenuAdapter({ menu -> insertDialog(menu)
-        }, { menu -> deleteDialog(menu) })
+        btn_menu_add.setOnClickListener{
+            insertDialog(null)
+        }
+        val adapter = MenuAdapter({ menu ->
+            insertDialog(menu)
+        }, { menu ->
+            deleteDialog(menu)
+        })
 
         val layoutManager = LinearLayoutManager(getActivity())
         recyclerView.adapter = adapter
         recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
-        Log.d("debug1","onViewCreated2")
 
         viewModel = ViewModelProviders.of(this).get(ViewModel::class.java)
         viewModel.getAllMenu(groupId).observe(this, Observer<List<Menu>> { menu ->
             adapter.setMenu(menu!!)
         })
-        Log.d("debug1","onViewCreated3")
-
         viewModel.getPrice(groupId).observe(this, Observer { price ->
             txt_menu.text = price
         })

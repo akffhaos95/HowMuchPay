@@ -25,10 +25,14 @@ class CalculMemberFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         groupId = arguments!!.getInt("groupId")
-        btn_member_add.setOnClickListener{ insertDialog(null) }
-
-        val adapter = MemberAdapter({ member -> insertDialog(member)
-        }, { member -> deleteDialog(member) })
+        btn_member_add.setOnClickListener{
+            insertDialog(null)
+        }
+        val adapter = MemberAdapter({ member ->
+            insertDialog(member)
+        }, { member ->
+            deleteDialog(member)
+        })
 
         val layoutManager = LinearLayoutManager(getActivity())
         recyclerView.adapter = adapter
