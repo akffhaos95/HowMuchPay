@@ -5,11 +5,16 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.EditText
+import android.widget.SimpleAdapter
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.calcul_menu.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: ViewModel
@@ -39,10 +44,20 @@ class MainActivity : AppCompatActivity() {
                 deleteDialog(group)
             }.show()
         })
-        val layoutManager = GridLayoutManager(this,2)
+        val layoutManager = LinearLayoutManager(this)
         main_RecyclerView.adapter = adapter
         main_RecyclerView.layoutManager = layoutManager
         main_RecyclerView.setHasFixedSize(true)
+
+        val swipeHandler = object : SwipeToDelete(this) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val adapter = main_RecyclerView.adapter as GroupAdapter
+                val removeGroup = adapter.removeAt(viewHolder.adapterPosition)
+                viewModel.deleteGroup(removeGroup[0])
+            }
+        }
+        val itemTouchHelper = ItemTouchHelper(swipeHandler)
+        itemTouchHelper.attachToRecyclerView(main_RecyclerView)
 
         viewModel = ViewModelProviders.of(this).get(ViewModel::class.java)
         viewModel.getAllGroup().observe(this, Observer<List<Group>> { group ->

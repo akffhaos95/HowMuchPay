@@ -26,7 +26,7 @@ class GroupAdapter(val context: Context?, val itemClick: (Group) -> Unit, val de
 
         fun bind (group: Group) {
             group_name?.text = group.name
-            //group_cnt?.text = group. + "명"
+            group_cnt?.text = group.id.toString()
 
             itemView.setOnClickListener{ itemClick(group) }
             itemView.setOnLongClickListener{
@@ -38,5 +38,9 @@ class GroupAdapter(val context: Context?, val itemClick: (Group) -> Unit, val de
     fun setGroup(group: List<Group>) {
         this.group = group
         notifyDataSetChanged()
+    }
+    fun removeAt(position: Int): List<Group> {
+        notifyItemRemoved(position)
+        return group
     }
 }
