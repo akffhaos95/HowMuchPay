@@ -12,23 +12,20 @@
         android:gravity="center"
         android:weightSum="10">
         <TextView
-            android:text="인원 :"
-            android:textSize="60px"
-            android:layout_weight="1"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            style="@style/TEXTVIEW_STYLE"
+            android:layout_weight="1" />
         <TextView
-            android:id="@+id/txt_member"
-            android:textSize="60px"
-            android:hint="0"
-            android:layout_weight="3"
             android:layout_width="100px"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:id="@+id/txt_member"
+            style="@style/TEXTVIEW_STYLE"
+            android:layout_weight="3" />
     </LinearLayout>
     <Button
         android:id="@+id/btn_member_add"
         android:textSize="60px"
-        android:text="인원 추가"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

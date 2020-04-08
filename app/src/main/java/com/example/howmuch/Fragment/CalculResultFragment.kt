@@ -8,11 +8,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.calcul_member.*
+import kotlinx.android.synthetic.main.calcul_member.recyclerView
+import kotlinx.android.synthetic.main.calcul_result.*
 
 class CalculResultFragment : Fragment() {
     private lateinit var viewModel: ViewModel
     var groupId = 0
+    var price = 0
+    var cnt = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.calcul_result, container, false)
@@ -22,9 +25,9 @@ class CalculResultFragment : Fragment() {
 
         groupId = arguments!!.getInt("groupId")
 
-        val adapter = MemberAdapter({ member ->
+        val adapter = ResultAdapter({ menu ->
 
-        }, { member ->
+        }, { menu ->
 
         })
         val layoutManager = LinearLayoutManager(getActivity())
@@ -33,11 +36,17 @@ class CalculResultFragment : Fragment() {
         recyclerView.setHasFixedSize(true)
 
         viewModel = ViewModelProviders.of(this).get(ViewModel::class.java)
-        viewModel.getAllMember(groupId).observe(this, Observer<List<Member>> { member ->
-
+        viewModel.getAllMenu(groupId).observe(this, Observer<List<Menu>> { menu ->
+            adapter.setResult(menu!!)
         })
-        viewModel.getMemberCnt(groupId).observe(this, Observer { cnt ->
-
+        viewModel.getPrice(groupId).observe(this, Observer<String> { price ->
+            this.price = price.toInt()
         })
+        viewModel.getMemberCnt(groupId).observe(this, Observer<Int> { cnt ->
+            this.cnt = cnt
+        })
+        btn_res.setOnClickListener {
+            txt_res.text = (price/cnt).toString()
+        }
     }
 }

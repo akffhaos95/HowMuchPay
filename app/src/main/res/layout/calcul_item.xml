@@ -9,17 +9,41 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:textSize="20dp"
-        android:text="NAME"
+        style="@style/TEXTVIEW_STYLE"
         android:textStyle="bold" />
     <TextView
         android:id="@+id/txt_res_menu_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:textSize="20dp"
-        android:text="PRICE"
         android:layout_below="@+id/txt_res_menu_name"
-        android:textStyle="bold" />
-
+        style="@style/TEXTVIEW_STYLE"
+        />
+    <CheckBox
+        android:id="@+id/btn_res_part"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:text="개별계산"
+        android:layout_margin="20dp"
+        android:layout_alignParentRight="true"/>
+    <TextView
+        android:id="@+id/txt_res_menu_now"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/TEXTVIEW_STYLE"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="100dp"
+        android:layout_alignLeft="@+id/txt_res_menu_price"/>
+    <LinearLayout
+        android:id="@+id/part_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_alignBottom="@+id/txt_res_menu_price">
+        <Button
+            android:text="test"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
 </RelativeLayout>

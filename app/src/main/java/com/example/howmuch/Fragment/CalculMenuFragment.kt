@@ -79,6 +79,7 @@ class CalculMenuFragment: Fragment() {
                     val newMenu = Menu()
                     newMenu.name  = dialogName.text.toString()
                     newMenu.price  = dialogPrice.text.toString()
+                    newMenu.groupId = groupId
                     viewModel.insertMenu(newMenu)
                 }
                 .setNegativeButton("Cancel") { dialogInterface, i -> }
