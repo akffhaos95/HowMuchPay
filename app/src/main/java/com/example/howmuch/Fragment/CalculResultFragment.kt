@@ -25,11 +25,7 @@ class CalculResultFragment : Fragment() {
 
         groupId = arguments!!.getInt("groupId")
 
-        val adapter = ResultAdapter({ menu ->
-
-        }, { menu ->
-
-        })
+        val adapter = ResultAdapter(context)
         val layoutManager = LinearLayoutManager(getActivity())
         recyclerView.adapter = adapter
         recyclerView.layoutManager = layoutManager
@@ -37,7 +33,7 @@ class CalculResultFragment : Fragment() {
 
         viewModel = ViewModelProviders.of(this).get(ViewModel::class.java)
         viewModel.getAllMenu(groupId).observe(this, Observer<List<Menu>> { menu ->
-            adapter.setResult(menu!!)
+            adapter.setMenu(menu!!)
         })
         viewModel.getPrice(groupId).observe(this, Observer<String> { price ->
             this.price = price.toInt()

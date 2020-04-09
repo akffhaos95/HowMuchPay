@@ -1,20 +1,19 @@
 package com.example.howmuch
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.view.animation.AnimationUtils
+import android.view.animation.LayoutAnimationController
 import android.widget.EditText
-import android.widget.SimpleAdapter
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.calcul_menu.*
+
 
 class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: ViewModel
@@ -22,7 +21,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        val intent = Intent(this, LoadingActivity::class.java)
+        startActivity(intent)
         //Toolbar
         val toolbar = main_toolbar
         setSupportActionBar(toolbar)
@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("groupId", group.id)
             intent.putExtra("groupName",group.name)
             startActivity(intent)
+            overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         }, { group ->
             var builder = AlertDialog.Builder(this)
             builder.setTitle("Update or Delete")
@@ -71,7 +72,17 @@ class MainActivity : AppCompatActivity() {
         main_setting.setOnClickListener {
             val intent = Intent(this, SettingActivity::class.java)
             startActivity(intent)
+            overridePendingTransition(R.anim.fadein, R.anim.fadeout);
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        //Layout Animation
+        val resId:Int = R.anim.layout_animation_fall_down
+        val animCon:LayoutAnimationController = AnimationUtils.loadLayoutAnimation(this,resId)
+        main_RecyclerView.layoutAnimation = animCon
+
     }
     private fun insertDialog(group: Group?) {
         val builder = AlertDialog.Builder(this)
