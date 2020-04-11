@@ -70,14 +70,28 @@ class CalculMemberFragment: Fragment() {
         val builder = AlertDialog.Builder(getContext()!!)
         val dialogView = layoutInflater.inflate(R.layout.dialog_insert, null)
         val dialogName = dialogView.findViewById<EditText>(R.id.txt_insert_Name)
-        builder.setView(dialogView)
-            .setPositiveButton("Save") { dialogInterface, i ->
-                val newMember = Member()
-                newMember.name  = dialogName.text.toString()
-                newMember.groupId = groupId
-                viewModel.insertMember(newMember)
-            }
-            .setNegativeButton("Cancel") { dialogInterface, i -> }
-            .show()
+        if (member==null){
+            builder.setView(dialogView)
+                .setPositiveButton("Save") { dialogInterface, i ->
+                    val newMember = Member()
+                    newMember.name  = dialogName.text.toString()
+                    newMember.groupId = groupId
+                    viewModel.insertMember(newMember)
+                }
+                .setNegativeButton("Cancel") { dialogInterface, i -> }
+                .show()
+        } else {
+            dialogName.setText(member.name)
+            builder.setView(dialogView)
+                .setPositiveButton("Save") { dialogInterface, i ->
+                    val umember = Member()
+                    umember.name  = dialogName.text.toString()
+                    umember.groupId = groupId
+                    viewModel.insertMember(umember)
+                }
+                .setNegativeButton("Cancel") { dialogInterface, i -> }
+                .show()
+        }
+
     }
 }

@@ -2,7 +2,6 @@ package com.example.howmuch
 
 import androidx.room.*
 import androidx.room.ForeignKey.CASCADE
-import java.util.*
 
 @Entity(tableName = "grouper")
 class Group constructor(@PrimaryKey(autoGenerate = true) var id: Int?,
@@ -10,7 +9,7 @@ class Group constructor(@PrimaryKey(autoGenerate = true) var id: Int?,
 ){ constructor(): this(null,"") }
 
 @Entity(tableName = "menu", foreignKeys = arrayOf(
-    ForeignKey(entity = Group::class,
+    ForeignKey(onDelete = CASCADE, entity = Group::class,
         parentColumns = arrayOf("id"),
         childColumns = arrayOf("groupId"))))
 class Menu constructor(@PrimaryKey(autoGenerate = true) var id: Int?,
@@ -20,7 +19,7 @@ class Menu constructor(@PrimaryKey(autoGenerate = true) var id: Int?,
 ) { constructor(): this(null,"","",0) }
 
 @Entity(tableName = "member", foreignKeys = arrayOf(
-    ForeignKey(entity = Group::class,
+    ForeignKey(onDelete = CASCADE, entity = Group::class,
         parentColumns = arrayOf("id"),
         childColumns = arrayOf("groupId"))))
 class Member constructor(@PrimaryKey(autoGenerate = true) var id: Int?,

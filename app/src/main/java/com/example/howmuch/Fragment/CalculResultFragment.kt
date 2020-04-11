@@ -35,6 +35,9 @@ class CalculResultFragment : Fragment() {
         viewModel.getAllMenu(groupId).observe(this, Observer<List<Menu>> { menu ->
             adapter.setMenu(menu!!)
         })
+        viewModel.getAllMember(groupId).observe(this, Observer { member ->
+            adapter.setMember(member!!)
+        })
         viewModel.getPrice(groupId).observe(this, Observer<String> { price ->
             this.price = price.toInt()
         })
