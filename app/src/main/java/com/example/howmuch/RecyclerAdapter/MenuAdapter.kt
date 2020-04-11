@@ -39,4 +39,8 @@ class MenuAdapter(val itemClick: (Menu) -> Unit, val delClick: (Menu) -> Unit) :
         this.menu = menu
         notifyDataSetChanged()
     }
+    fun removeAt(position: Int): Menu {
+        notifyItemRemoved(position)
+        return menu[position]
+    }
 }

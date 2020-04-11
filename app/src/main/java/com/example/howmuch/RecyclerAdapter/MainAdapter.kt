@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class GroupAdapter(val context: Context?, val itemClick: (Group) -> Unit, val delClick: (Group) -> Unit) :
-    RecyclerView.Adapter<GroupAdapter.ViewHolder>() {
+class MainAdapter(val context: Context?, val itemClick: (Group) -> Unit, val delClick: (Group) -> Unit) :
+    RecyclerView.Adapter<MainAdapter.ViewHolder>() {
     private var group: List<Group> = listOf()
     override fun onCreateViewHolder(parent: ViewGroup, i: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.main_item,parent,false)
@@ -39,8 +39,8 @@ class GroupAdapter(val context: Context?, val itemClick: (Group) -> Unit, val de
         this.group = group
         notifyDataSetChanged()
     }
-    fun removeAt(position: Int): List<Group> {
+    fun removeAt(position: Int): Group {
         notifyItemRemoved(position)
-        return group
+        return group[position]
     }
 }

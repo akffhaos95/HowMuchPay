@@ -36,4 +36,8 @@ class MemberAdapter(val itemClick: (Member) -> Unit, val delClick: (Member) -> U
         this.member = member
         notifyDataSetChanged()
     }
+    fun removeAt(position: Int): Member {
+        notifyItemRemoved(position)
+        return member[position]
+    }
 }

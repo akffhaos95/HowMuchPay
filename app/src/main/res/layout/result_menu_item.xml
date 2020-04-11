@@ -45,13 +45,13 @@
             android:text="개별"
             android:layout_margin="20dp"
             android:layout_alignParentRight="true"/>
-        <LinearLayout
+        <kr.co.epublic.flowlayouttest.FixedGridLayout
             android:id="@+id/part_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:visibility="gone"
             android:layout_below="@+id/txt_res_menu_now">
-        </LinearLayout>
+        </kr.co.epublic.flowlayouttest.FixedGridLayout>
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

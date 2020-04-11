@@ -2,7 +2,7 @@
 <resources>
     <style name = "TEXTVIEW_STYLE">
         <item name = "android:text">Test</item>
-        <item name = "android:textSize">17dp</item>
+        <item name = "android:textSize">20dp</item>
         <item name = "android:textColor">@color/colorPrimary</item>
         <item name = "android:textStyle">bold</item>
     </style>

@@ -21,45 +21,41 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        //LoadingActivity
         val intent = Intent(this, LoadingActivity::class.java)
         startActivity(intent)
+
         //Toolbar
         val toolbar = main_toolbar
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayShowTitleEnabled(false)
 
         //RecyclerView
-        val adapter = GroupAdapter(this,{group ->
+        val adapter = MainAdapter(this,{ group ->
             val intent = Intent(this, CalculActivity::class.java)
             intent.putExtra("groupId", group.id)
             intent.putExtra("groupName",group.name)
             startActivity(intent)
             overridePendingTransition(R.anim.fadein, R.anim.fadeout);
-        }, { group ->
-            var builder = AlertDialog.Builder(this)
-            builder.setTitle("Update or Delete")
-            builder.setPositiveButton("Update"){dialog, i ->
-                insertDialog(group)
-            }
-            builder.setNegativeButton("Delete"){dialog, i ->
-                deleteDialog(group)
-            }.show()
-        })
+        }, { group -> insertDialog(group) })
         val layoutManager = LinearLayoutManager(this)
         main_RecyclerView.adapter = adapter
         main_RecyclerView.layoutManager = layoutManager
         main_RecyclerView.setHasFixedSize(true)
 
+        //SwipeToDelete
         val swipeHandler = object : SwipeToDelete(this) {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val adapter = main_RecyclerView.adapter as GroupAdapter
+                val adapter = main_RecyclerView.adapter as MainAdapter
                 val removeGroup = adapter.removeAt(viewHolder.adapterPosition)
-                viewModel.deleteGroup(removeGroup[0])
+                viewModel.deleteGroup(removeGroup)
             }
         }
         val itemTouchHelper = ItemTouchHelper(swipeHandler)
         itemTouchHelper.attachToRecyclerView(main_RecyclerView)
 
+        //RoomDB
         viewModel = ViewModelProviders.of(this).get(ViewModel::class.java)
         viewModel.getAllGroup().observe(this, Observer<List<Group>> { group ->
             adapter.setGroup(group!!)
@@ -78,12 +74,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        //Layout Animation
+        //Fall Down Animation
         val resId:Int = R.anim.layout_animation_fall_down
         val animCon:LayoutAnimationController = AnimationUtils.loadLayoutAnimation(this,resId)
         main_RecyclerView.layoutAnimation = animCon
 
     }
+
+
     private fun insertDialog(group: Group?) {
         val builder = AlertDialog.Builder(this)
         val dialogView = layoutInflater.inflate(R.layout.dialog_insert, null)

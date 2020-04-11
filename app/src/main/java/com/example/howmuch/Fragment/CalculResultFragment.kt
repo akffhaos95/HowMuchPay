@@ -4,10 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
+import android.view.animation.LayoutAnimationController
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.calcul_member.recyclerView
 import kotlinx.android.synthetic.main.calcul_result.*
 
@@ -22,6 +25,10 @@ class CalculResultFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val resId:Int = R.anim.layout_animation_fall_down
+        val animCon: LayoutAnimationController = AnimationUtils.loadLayoutAnimation(context,resId)
+        recyclerView.layoutAnimation = animCon
 
         groupId = arguments!!.getInt("groupId")
 

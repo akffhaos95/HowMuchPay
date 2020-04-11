@@ -5,13 +5,20 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
+import android.view.animation.LayoutAnimationController
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.calcul_member.*
+import kotlinx.android.synthetic.main.calcul_member.recyclerView
+import kotlinx.android.synthetic.main.calcul_menu.*
 
 class CalculMemberFragment: Fragment() {
     private lateinit var viewModel: ViewModel
@@ -23,6 +30,10 @@ class CalculMemberFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val resId:Int = R.anim.layout_animation_fall_down
+        val animCon: LayoutAnimationController = AnimationUtils.loadLayoutAnimation(context,resId)
+        recyclerView.layoutAnimation = animCon
 
         groupId = arguments!!.getInt("groupId")
         btn_member_add.setOnClickListener{
@@ -38,6 +49,16 @@ class CalculMemberFragment: Fragment() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
+
+        val swipeHandler = object : SwipeToDelete(context!!) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val adapter = recyclerView.adapter as MemberAdapter
+                val removeMember = adapter.removeAt(viewHolder.adapterPosition)
+                viewModel.deleteMember(removeMember)
+            }
+        }
+        val itemTouchHelper = ItemTouchHelper(swipeHandler)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
 
         viewModel = ViewModelProviders.of(this).get(ViewModel::class.java)
         viewModel.getAllMember(groupId).observe(this, Observer<List<Member>> { member ->
