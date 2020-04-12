@@ -1,29 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <LinearLayout
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/calcul_menu_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:weightSum="10">
-        <TextView
-            android:text="금액 :"
-            android:textSize="60px"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"/>
-        <TextView
-            android:id="@+id/txt_menu"
-            android:textSize="60px"
-            android:hint="0"
-            android:layout_weight="3"
-            android:inputType="number"
-            android:layout_width="100px"
-            android:digits="0123456789"
-            android:layout_height="match_parent"/>
-    </LinearLayout>
+        android:background="@drawable/toolbar_border">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                style="@style/TEXTVIEW_STYLE" />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="5dp"
+                android:layout_alignParentRight="true">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="5dp"
+                    android:layout_marginRight="10dp">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_member" />
+                    <TextView
+                        android:id="@+id/calcul_menu_member_cnt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        style="@style/TEXTVIEW_STYLE" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="5dp">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_menu" />
+                    <TextView
+                        android:id="@+id/calcul_menu_menu_cnt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        style="@style/TEXTVIEW_STYLE" />
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

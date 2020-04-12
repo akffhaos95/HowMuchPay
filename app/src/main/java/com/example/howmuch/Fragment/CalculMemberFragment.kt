@@ -65,7 +65,7 @@ class CalculMemberFragment: Fragment() {
             adapter.setMember(member!!)
         })
         viewModel.getMemberCnt(groupId).observe(this, Observer { cnt ->
-            txt_member.text = cnt.toString()
+            calcul_member_member_cnt.text = cnt.toString()
         })
     }
 

@@ -65,7 +65,7 @@ class CalculMenuFragment: Fragment() {
             adapter.setMenu(menu!!)
         })
         viewModel.getPrice(groupId).observe(this, Observer { price ->
-            txt_menu.text = price
+            calcul_menu_menu_cnt.text = price
         })
     }
 

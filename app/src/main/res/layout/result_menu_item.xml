@@ -43,8 +43,18 @@
             android:layout_height="wrap_content"
             android:textSize="20dp"
             android:text="개별"
-            android:layout_margin="20dp"
-            android:layout_alignParentRight="true"/>
+            android:layout_margin="10dp"
+            android:layout_toRightOf="@+id/txt_res_menu_now"
+            android:layout_below="@+id/txt_res_menu_price"/>
+
+        <Spinner
+            android:id="@+id/spin_payer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_margin="20dp"/>
+
         <kr.co.epublic.flowlayouttest.FixedGridLayout
             android:id="@+id/part_layout"
             android:layout_width="match_parent"

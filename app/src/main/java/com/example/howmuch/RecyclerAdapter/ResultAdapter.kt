@@ -14,6 +14,7 @@ class ResultAdapter(val context:Context?) :
     private var menu: List<Menu> = listOf()
     private var member: List<Member> = listOf()
 
+
     override fun onCreateViewHolder(parent: ViewGroup, i: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.result_menu_item,parent,false)
         return ViewHolder(view)
@@ -30,11 +31,17 @@ class ResultAdapter(val context:Context?) :
         val res_part = itemView?.findViewById<CheckBox>(R.id.btn_res_part)
         val part_layout = itemView?.findViewById<FixedGridLayout>(R.id.part_layout)
         val price_now = itemView?.findViewById<TextView>(R.id.txt_res_menu_now)
+        var payer = itemView?.findViewById<Spinner>(R.id.spin_payer)
 
         fun bind (menu: Menu) {
             menu_name?.text = menu.name
             menu_price?.text = menu.price
+            price_now?.text = (menu.price!!.toInt()/member.size.toInt()).toString()
+            val item = arrayOfNulls<String>(member.size)
+            var i = 0
             for(index in member) {
+                item[i] = index.name
+                i++
                 val checkBox = CheckBox(context)
                 checkBox.id = index.id!!
                 checkBox.text = index.name
@@ -47,6 +54,8 @@ class ResultAdapter(val context:Context?) :
                     Toast.makeText(context,index.name,Toast.LENGTH_SHORT).show()
                 }
                 part_layout?.addView(checkBox)
+                val arrayadapter = ArrayAdapter(context!!, android.R.layout.simple_spinner_item, item)
+                payer!!.adapter = arrayadapter
             }
 
             res_part?.setOnCheckedChangeListener(object: CompoundButton.OnCheckedChangeListener{
@@ -59,7 +68,6 @@ class ResultAdapter(val context:Context?) :
                     }
                 }
             })
-
             itemView.setOnLongClickListener{
                 //uncheck all
                 true

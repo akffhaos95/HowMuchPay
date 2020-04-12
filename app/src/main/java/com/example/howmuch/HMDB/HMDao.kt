@@ -30,9 +30,6 @@ interface HMDao {
     @Delete
     fun deleteMenu(menu : Menu)
 
-    //Menu join Member
-    /*@Query("SELECT SUM(price) FROM menu, member WHERE groupId=:groupId")
-    fun getMemberPrice(groupId: Int?)*/
     //Member
     //SELECT
     @Query("SELECT * FROM member WHERE groupId=:groupId")
@@ -45,4 +42,10 @@ interface HMDao {
     //DELETE
     @Delete
     fun deleteMember(member : Member)
+
+    //Payment
+    @Query("SELECT * FROM payment WHERE groupId=:groupId GROUP BY giver")
+    fun getPayment(groupId: Int?): LiveData<List<Payment>>
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertPayment(payment: Payment)
 }

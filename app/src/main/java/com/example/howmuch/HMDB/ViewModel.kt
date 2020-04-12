@@ -49,4 +49,12 @@ class ViewModel(application: Application) : AndroidViewModel(application) {
     fun deleteMember(member: Member) {
         repository.deleteMember(member)
     }
+
+    //Payment
+    fun getPayment(groupId: Int?): LiveData<List<Payment>> {
+        return repository.getPayment(groupId)
+    }
+    fun insertPayment(payment: Payment){
+        repository.insertPayment(payment)
+    }
 }

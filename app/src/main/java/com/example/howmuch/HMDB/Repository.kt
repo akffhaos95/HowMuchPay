@@ -82,4 +82,18 @@ class Repository(application: Application) {
             thread.start()
         } catch (e: Exception) { }
     }
+
+    //Payment
+    //SELECT
+    fun getPayment(groupId: Int?): LiveData<List<Payment>>{
+        return hmDao.getPayment(groupId)
+    }
+    //INSERT
+    fun insertPayment(payment: Payment){
+        try{
+            val thread = Thread(Runnable {
+                hmDao.insertPayment(payment) })
+            thread.start()
+        } catch (e: Exception) { }
+    }
 }

@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 
-@Database(entities = arrayOf(Group::class,Menu::class,Member::class), version = 1)
+@Database(entities = arrayOf(Group::class,Menu::class,Member::class,Payment::class), version = 1)
 abstract class HMDatabase: RoomDatabase() {
     abstract fun hmDao(): HMDao
 
