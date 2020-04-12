@@ -5,9 +5,6 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 
-/**
- * Created by Administrator on 2019-02-21.
- */
 class FixedGridLayout : ViewGroup {
     private var line_height = 0
 
@@ -19,20 +16,13 @@ class FixedGridLayout : ViewGroup {
         ViewGroup.LayoutParams(0, 0) {
 
     }
-
     constructor(context: Context?) : super(context) {}
-    constructor(context: Context?, attrs: AttributeSet?) : super(
-        context,
-        attrs
-    ) {
-    }
+    constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs) {}
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         assert(MeasureSpec.getMode(widthMeasureSpec) != MeasureSpec.UNSPECIFIED)
-        val width =
-            MeasureSpec.getSize(widthMeasureSpec) - paddingLeft - paddingRight
-        var height =
-            MeasureSpec.getSize(heightMeasureSpec) - paddingTop - paddingBottom
+        val width = MeasureSpec.getSize(widthMeasureSpec) - paddingLeft - paddingRight
+        var height = MeasureSpec.getSize(heightMeasureSpec) - paddingTop - paddingBottom
         val count = childCount
         var line_height = 0
         var xpos = paddingLeft
@@ -47,15 +37,10 @@ class FixedGridLayout : ViewGroup {
         for (i in 0 until count) {
             val child = getChildAt(i)
             if (child.visibility != View.GONE) {
-                val lp =
-                    child.layoutParams as LayoutParams
-                child.measure(
-                    MeasureSpec.makeMeasureSpec(width, MeasureSpec.AT_MOST),
-                    childHeightMeasureSpec
-                )
+                val lp = child.layoutParams as LayoutParams
+                child.measure( MeasureSpec.makeMeasureSpec(width, MeasureSpec.AT_MOST), childHeightMeasureSpec)
                 val childw = child.measuredWidth
-                line_height =
-                    Math.max(line_height, child.measuredHeight + lp.vertical_spacing)
+                line_height = Math.max(line_height, child.measuredHeight + lp.vertical_spacing)
                 if (xpos + childw > width) {
                     xpos = paddingLeft
                     ypos += line_height
@@ -83,17 +68,10 @@ class FixedGridLayout : ViewGroup {
     }
 
     override fun checkLayoutParams(p: ViewGroup.LayoutParams): Boolean {
-        return if (p is LayoutParams) {
-            true
-        } else false
-    }
+        return if (p is LayoutParams) { true } else false }
 
     override fun onLayout(
-        changed: Boolean,
-        l: Int,
-        t: Int,
-        r: Int,
-        b: Int
+        changed: Boolean, l: Int, t: Int, r: Int, b: Int
     ) {
         val count = childCount
         val width = r - l
@@ -104,8 +82,7 @@ class FixedGridLayout : ViewGroup {
             if (child.visibility != View.GONE) {
                 val childw = child.measuredWidth
                 val childh = child.measuredHeight
-                val lp =
-                    child.layoutParams as LayoutParams
+                val lp = child.layoutParams as LayoutParams
                 if (xpos + childw > width) {
                     xpos = paddingLeft
                     ypos += line_height

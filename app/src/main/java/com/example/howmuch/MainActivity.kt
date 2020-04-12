@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
 
         //RecyclerView
         val adapter = MainAdapter(this,{ group ->
-            val intent = Intent(this, CalculActivity::class.java)
+            val intent = Intent(this, InsertActivity::class.java)
             intent.putExtra("groupId", group.id)
             intent.putExtra("groupName",group.name)
             startActivity(intent)
@@ -78,41 +78,23 @@ class MainActivity : AppCompatActivity() {
         val resId:Int = R.anim.layout_animation_fall_down
         val animCon:LayoutAnimationController = AnimationUtils.loadLayoutAnimation(this,resId)
         main_RecyclerView.layoutAnimation = animCon
-
     }
-
 
     private fun insertDialog(group: Group?) {
         val builder = AlertDialog.Builder(this)
         val dialogView = layoutInflater.inflate(R.layout.dialog_insert, null)
         val dialogName = dialogView.findViewById<EditText>(R.id.txt_insert_Name)
-        if(group==null) {
-            builder.setView(dialogView)
-                .setPositiveButton("Save") { dialogInterface, i ->
-                    val newGroup = Group()
-                    newGroup.name  = dialogName.text.toString()
-                    viewModel.insertGroup(newGroup)
-                }
-                .setNegativeButton("Cancel") { dialogInterface, i -> }
-                .show()
-        } else {
+        if(group!=null){
             dialogName.setText(group.name)
-            builder.setView(dialogView)
-                .setPositiveButton("Save") { dialogInterface, i ->
-                    group.name  = dialogName.text.toString()
-                    viewModel.insertGroup(group)
-                }
-                .setNegativeButton("Cancel") { dialogInterface, i -> }
-                .show()
         }
-    }
-    private fun deleteDialog(group:Group) {
-        val builder = AlertDialog.Builder(this)
-        builder.setMessage("Delete selected group?")
-            .setPositiveButton("Yes") {_, _ ->
-                viewModel.deleteGroup(group)
+        builder.setView(dialogView)
+            .setPositiveButton("Save") { dialogInterface, i ->
+                val newGroup = Group()
+                newGroup.name  = dialogName.text.toString()
+                viewModel.insertGroup(newGroup)
             }
-            .setNegativeButton("No") {_, _ ->}
-        builder.show()
+            .setNegativeButton("Cancel") { dialogInterface, i -> }
+            .show()
+
     }
 }

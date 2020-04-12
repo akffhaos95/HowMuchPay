@@ -6,12 +6,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class MenuAdapter(val itemClick: (Menu) -> Unit, val delClick: (Menu) -> Unit) :
+class MenuAdapter(val itemClick: (Menu) -> Unit) :
     RecyclerView.Adapter<MenuAdapter.ViewHolder>() {
     private var menu: List<Menu> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, i: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.menu_item,parent,false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.recycler_item,parent,false)
         return ViewHolder(view)
     }
     override fun getItemCount(): Int {
@@ -21,18 +21,14 @@ class MenuAdapter(val itemClick: (Menu) -> Unit, val delClick: (Menu) -> Unit) :
         viewHolder.bind(menu[position])
     }
     inner class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
-        val menu_name = itemView?.findViewById<TextView>(R.id.txt_menu_name)
-        val menu_price = itemView?.findViewById<TextView>(R.id.txt_menu_price)
+        val name = itemView?.findViewById<TextView>(R.id.item_name)
+        val price = itemView?.findViewById<TextView>(R.id.item_price)
 
         fun bind (menu: Menu) {
-            menu_name?.text = menu.name
-            menu_price?.text = menu.price
+            name?.text = menu.name
+            price?.text = menu.price
 
             itemView.setOnClickListener{ itemClick(menu) }
-            itemView.setOnLongClickListener{
-                delClick(menu)
-                true
-            }
         }
     }
     fun setMenu(menu: List<Menu>) {

@@ -10,8 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 class MainAdapter(val context: Context?, val itemClick: (Group) -> Unit, val delClick: (Group) -> Unit) :
     RecyclerView.Adapter<MainAdapter.ViewHolder>() {
     private var group: List<Group> = listOf()
+
     override fun onCreateViewHolder(parent: ViewGroup, i: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.main_item,parent,false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.recycler_item,parent,false)
         return ViewHolder(view)
     }
     override fun getItemCount(): Int {
@@ -21,12 +22,12 @@ class MainAdapter(val context: Context?, val itemClick: (Group) -> Unit, val del
             viewHolder.bind(group[position])
     }
     inner class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
-        val group_name = itemView?.findViewById<TextView>(R.id.txt_group_name)
-        val group_cnt = itemView?.findViewById<TextView>(R.id.txt_member_cnt)
+        val name = itemView?.findViewById<TextView>(R.id.item_name)
+        val id = itemView?.findViewById<TextView>(R.id.item_cnt)
 
         fun bind (group: Group) {
-            group_name?.text = group.name
-            group_cnt?.text = group.id.toString()
+            name?.text = group.name
+            id?.text = group.id.toString()
 
             itemView.setOnClickListener{ itemClick(group) }
             itemView.setOnLongClickListener{

@@ -16,7 +16,7 @@ class ResultAdapter(val context:Context?) :
 
 
     override fun onCreateViewHolder(parent: ViewGroup, i: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.result_menu_item,parent,false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.recycler_item,parent,false)
         return ViewHolder(view)
     }
     override fun getItemCount(): Int {
@@ -26,17 +26,19 @@ class ResultAdapter(val context:Context?) :
         viewHolder.bind(menu[position])
     }
     inner class ViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
-        val menu_name = itemView?.findViewById<TextView>(R.id.txt_res_menu_name)
-        val menu_price = itemView?.findViewById<TextView>(R.id.txt_res_menu_price)
-        val res_part = itemView?.findViewById<CheckBox>(R.id.btn_res_part)
-        val part_layout = itemView?.findViewById<FixedGridLayout>(R.id.part_layout)
-        val price_now = itemView?.findViewById<TextView>(R.id.txt_res_menu_now)
-        var payer = itemView?.findViewById<Spinner>(R.id.spin_payer)
+        val name = itemView?.findViewById<TextView>(R.id.item_name)
+        val price = itemView?.findViewById<TextView>(R.id.item_price)
+
+        val check = itemView?.findViewById<FixedGridLayout>(R.id.item_check)
+        val cnt = itemView?.findViewById<TextView>(R.id.item_cnt)
+        var spiner = itemView?.findViewById<Spinner>(R.id.item_spiner)
 
         fun bind (menu: Menu) {
-            menu_name?.text = menu.name
-            menu_price?.text = menu.price
-            price_now?.text = (menu.price!!.toInt()/member.size.toInt()).toString()
+            spiner?.visibility = View.VISIBLE
+            name?.text = menu.name
+            price?.text = menu.price
+            cnt?.text = (menu.price!!.toInt()/member.size.toInt()).toString()
+
             val item = arrayOfNulls<String>(member.size)
             var i = 0
             for(index in member) {
@@ -53,23 +55,18 @@ class ResultAdapter(val context:Context?) :
                 checkBox.setOnCheckedChangeListener { buttonView, isChecked ->
                     Toast.makeText(context,index.name,Toast.LENGTH_SHORT).show()
                 }
-                part_layout?.addView(checkBox)
+                check?.addView(checkBox)
                 val arrayadapter = ArrayAdapter(context!!, android.R.layout.simple_spinner_item, item)
-                payer!!.adapter = arrayadapter
+                spiner!!.adapter = arrayadapter
             }
 
-            res_part?.setOnCheckedChangeListener(object: CompoundButton.OnCheckedChangeListener{
-                override fun onCheckedChanged(buttonView: CompoundButton, isChecked: Boolean) {
-                    if (res_part!!.isChecked) {
-                        part_layout?.visibility = View.VISIBLE
-                    }
-                    else{
-                        part_layout?.visibility = View.GONE
-                    }
-                }
-            })
             itemView.setOnLongClickListener{
-                //uncheck all
+                if (check?.visibility==View.GONE) {
+                    check?.visibility = View.VISIBLE
+                }
+                else{
+                    check?.visibility = View.GONE
+                }
                 true
             }
         }

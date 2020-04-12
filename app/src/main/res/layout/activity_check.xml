@@ -1,74 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".InsertActivity">
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/calcul_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/toolbar_border">
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                style="@style/TEXTVIEW_STYLE" />
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="5dp"
-            android:layout_alignParentRight="true">
+                android:id="@+id/title"
+                style="@style/TEXTVIEW_STYLE"
+                android:layout_weight="3"/>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="5dp"
-                android:layout_marginRight="10dp">
+                android:layout_weight="1"
+                android:gravity="center_vertical">
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_member" />
                 <TextView
-                    android:id="@+id/calcul_member_member_cnt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:id="@+id/member_cnt"
                     style="@style/TEXTVIEW_STYLE" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:padding="5dp">
+                android:padding="5dp"
+                android:layout_weight="3"
+                android:gravity="center_vertical">
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_menu" />
                 <TextView
-                    android:id="@+id/calcul_member_menu_cnt"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:id="@+id/menu_cnt"
                     style="@style/TEXTVIEW_STYLE" />
             </LinearLayout>
         </LinearLayout>
-        </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
-
-    <androidx.recyclerview.widget.RecyclerView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/recyclerView"
-        android:layout_margin="8dp"/>
-    <ImageButton
-        android:src="@drawable/ic_plus"
-        android:id="@+id/btn_member_add"
-        android:textSize="60px"
-        android:background="@drawable/recycler_bottom_btn_shape"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/recyclerView"
+            android:layout_margin="8dp"/>
+        <Button
+            android:id="@+id/res"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
 </LinearLayout>
