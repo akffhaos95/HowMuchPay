@@ -6,31 +6,28 @@
     android:background="@drawable/dialog_border">
 
     <TextView
+        android:id="@+id/dialog_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:text="다이얼로그 예제"
         android:textAlignment="center"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        style="@style/TEXTVIEW_STYLE"/>
     <EditText
-        android:id="@+id/txt_insert_Name"
+        android:id="@+id/dialog_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:hint="메뉴"
+        android:layout_margin="8dp"
+        style="@style/TEXTVIEW_STYLE"
         android:singleLine="true"
         android:ems="10"
         android:imeOptions="actionNext"
         android:inputType="textPersonName" />
     <EditText
-        android:id="@+id/txt_insert_Price"
+        android:id="@+id/dialog_price"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:hint="가격"
+        android:layout_margin="8dp"
+        android:visibility="gone"
+        style="@style/TEXTVIEW_STYLE"
         android:singleLine="true"
         android:ems="10"
         android:digits="0123456789"

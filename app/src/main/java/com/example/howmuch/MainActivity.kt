@@ -2,9 +2,11 @@ package com.example.howmuch
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.animation.AnimationUtils
 import android.view.animation.LayoutAnimationController
 import android.widget.EditText
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -13,6 +15,8 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.dialog_insert.*
+import kotlinx.android.synthetic.main.dialog_insert.view.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -83,14 +87,14 @@ class MainActivity : AppCompatActivity() {
     private fun insertDialog(group: Group?) {
         val builder = AlertDialog.Builder(this)
         val dialogView = layoutInflater.inflate(R.layout.dialog_insert, null)
-        val dialogName = dialogView.findViewById<EditText>(R.id.txt_insert_Name)
+        dialogView.dialog_title.text = "그룹 추가"
         if(group!=null){
-            dialogName.setText(group.name)
+            dialogView.dialog_name.setText(group.name)
         }
         builder.setView(dialogView)
             .setPositiveButton("Save") { dialogInterface, i ->
                 val newGroup = Group()
-                newGroup.name  = dialogName.text.toString()
+                newGroup.name  = dialogView.dialog_name.text.toString()
                 viewModel.insertGroup(newGroup)
             }
             .setNegativeButton("Cancel") { dialogInterface, i -> }

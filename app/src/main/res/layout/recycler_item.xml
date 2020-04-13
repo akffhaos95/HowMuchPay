@@ -6,12 +6,26 @@
     android:layout_margin="2dp"
     android:background="@drawable/toolbar_border">
     <LinearLayout
+        android:id="@+id/recycler_linear"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:weightSum="7">
         <TextView
             android:id="@+id/item_name"
             style="@style/TEXTVIEW_STYLE"
-            android:layout_weight="5"/>
+            android:layout_weight="3"/>
+        <TextView
+            android:id="@+id/item_spinner_des"
+            android:layout_weight="1"
+            android:textSize="10dp"
+            style="@style/TEXTVIEW_STYLE"
+            android:visibility="gone"
+            android:text="계산자:"/>
+        <Spinner
+            android:id="@+id/item_spinner"
+            style="@style/TEXTVIEW_STYLE"
+            android:layout_weight="3"
+            android:visibility="gone" />
         <TextView
             android:id="@+id/item_cnt"
             style="@style/TEXTVIEW_STYLE"
@@ -21,18 +35,13 @@
             style="@style/TEXTVIEW_STYLE"
             android:layout_weight="3"
             android:gravity="right" />
-        <Spinner
-            android:id="@+id/item_spiner"
-            style="@style/TEXTVIEW_STYLE"
-            android:layout_weight="3"
-            android:visibility="gone" />
     </LinearLayout>
     <kr.co.epublic.flowlayouttest.FixedGridLayout
         android:id="@+id/item_check"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
         android:orientation="horizontal"
-        android:visibility="gone"
-        android:layout_below="@+id/txt_res_menu_now">
+        android:visibility="gone">
     </kr.co.epublic.flowlayouttest.FixedGridLayout>
 </LinearLayout>

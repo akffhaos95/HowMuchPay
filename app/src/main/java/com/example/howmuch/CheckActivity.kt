@@ -23,7 +23,7 @@ class CheckActivity : AppCompatActivity() {
             groupId = intent.getIntExtra("groupId",0)
         }
 
-        val adapter = ResultAdapter(this)
+        val adapter = CheckAdapter(this)
         val layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = layoutManager
@@ -46,8 +46,8 @@ class CheckActivity : AppCompatActivity() {
         viewModel.getMemberCnt(groupId).observe(this, Observer<Int> { cnt ->
             this.cnt = cnt
         })
-        res.setOnClickListener {
-            title = (price/cnt).toString()
+        res.setOnClickListener() {
+
         }
     }
 }

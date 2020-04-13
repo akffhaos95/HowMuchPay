@@ -2,19 +2,24 @@ package com.example.howmuch
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.view.animation.LayoutAnimationController
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_insert.*
+import kotlinx.android.synthetic.main.dialog_insert.*
+import kotlinx.android.synthetic.main.dialog_insert.view.*
 
 class InsertActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var viewModel: ViewModel
@@ -36,7 +41,7 @@ class InsertActivity : AppCompatActivity(), View.OnClickListener {
         menu_recyclerView.layoutManager = layoutMenuManager
         menu_recyclerView.setHasFixedSize(true)
         val memberAdapter = MemberAdapter(){ member -> insertMemberDialog(member) }
-        val layoutMemberManager = LinearLayoutManager(this)
+        val layoutMemberManager = GridLayoutManager(this,5)
         member_recyclerView.adapter = memberAdapter
         member_recyclerView.layoutManager = layoutMemberManager
         member_recyclerView.setHasFixedSize(true)
@@ -98,19 +103,19 @@ class InsertActivity : AppCompatActivity(), View.OnClickListener {
     private fun insertMenuDialog(menu: Menu?) {
         val builder = AlertDialog.Builder(this)
         val dialogView = layoutInflater.inflate(R.layout.dialog_insert, null)
-        val dialogName = dialogView.findViewById<EditText>(R.id.txt_insert_Name)
-        val dialogPrice = dialogView.findViewById<EditText>(R.id.txt_insert_Price)
         val menuId = menu?.id
         val newMenu = Menu()
+        dialogView.dialog_price.visibility = View.VISIBLE
+        dialogView.dialog_title.text = "메뉴 추가"
         if(menu!=null){
-            dialogName.setText(menu.name)
-            dialogPrice.setText(menu.price)
+            dialogView.dialog_name.setText(menu.name)
+            dialogView.dialog_price.setText(menu.price)
             newMenu.id = menuId
         }
         builder.setView(dialogView)
             .setPositiveButton("Save") { dialogInterface, i ->
-                newMenu.name  = dialogName.text.toString()
-                newMenu.price  = dialogPrice.text.toString()
+                newMenu.name  = dialogView.dialog_name.text.toString()
+                newMenu.price  = dialogView.dialog_price.text.toString()
                 newMenu.groupId = groupId
                 viewModel.insertMenu(newMenu)
             }
@@ -120,16 +125,16 @@ class InsertActivity : AppCompatActivity(), View.OnClickListener {
     private fun insertMemberDialog(member: Member?) {
         val builder = AlertDialog.Builder(this)
         val dialogView = layoutInflater.inflate(R.layout.dialog_insert, null)
-        val dialogName = dialogView.findViewById<EditText>(R.id.txt_insert_Name)
         val memberId = member?.id
         val newMember = Member()
+        dialogView.dialog_title.text = "인원 추가"
         if (member!=null){
-            dialogName.setText(member.name)
+            dialogView.dialog_name.setText(member.name)
             newMember.id = memberId
         }
         builder.setView(dialogView)
             .setPositiveButton("Save") { dialogInterface, i ->
-                newMember.name  = dialogName.text.toString()
+                newMember.name  = dialogView.dialog_name.text.toString()
                 newMember.groupId = groupId
                 viewModel.insertMember(newMember)
             }
